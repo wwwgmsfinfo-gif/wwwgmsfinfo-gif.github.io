@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>silver_11.11.2026</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js v4.4.1 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 560px;
+    }
+    @media (max-width: 640px) {
+      .chart-wrapper {
+        height: 460px;
+      }
+    }
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .zoom-btn-active {
+      background-color: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    .zoom-btn-inactive {
+      background-color: #ffffff;
+      color: #475569;
+      border-color: #cbd5e1;
+    }
+    .zoom-btn-inactive:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body class="antialiased py-4 sm:py-6 px-3 sm:px-6 lg:px-8">
+
+  <!-- Main Container -->
+  <div class="max-w-6xl mx-auto space-y-5 sm:space-y-6">
+
+    <!-- Freshness Verification Banner -->
+    <div class="bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+        <span><strong>CRITICAL FRESHNESS CHECK:</strong> Active baseline verified from <code class="font-mono font-bold">reports_today</code> generated on <strong>2026-11-11 09:00 UTC</strong>. Cross-verified with COMEX/CME settlements ($51.225/oz on Nov 10) &amp; live quotes ($52.770/oz on Nov 11).</span>
+      </div>
+      <span class="hidden sm:inline-block font-mono text-xs text-emerald-700 font-semibold">SIZ26 • DEC 2026</span>
+    </div>
+
+    <!-- Header Banner -->
+    <header class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              FORECAST: FLAT / UP (RECLAIM OF $53.52 LOWER VOLUME BANK &amp; RECOVERY) • 50%
+            </span>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">SILVER FUTURES • SIZ26 (COMEX)</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            SILVER (SIZ26) — 1–1.5 Week Forecast (Nov 11–20, 2026)
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1.5 font-medium">
+            Report Close (Nov 10): <span class="text-slate-900 font-bold">51.225 USD / oz</span> | Live Intraday (Nov 11): <span class="text-blue-600 font-bold">52.770 USD / oz</span> <span class="text-emerald-600 font-semibold">(+3.02% 1d • +7.09% from Oct 30 low)</span> | Window: <span class="text-slate-800 font-semibold">Days 1–10 (Nov 11–20, 2026)</span>
+          </p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-600 flex flex-col sm:items-end gap-1 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="font-semibold text-slate-800">Target Zone:</span>
+            <span class="font-bold text-emerald-700">53.52 – 55.80 USD (+4.5% … +8.9% vs Nov 10)</span>
+          </div>
+          <div class="text-slate-500">
+            Invalidation Level: <span class="font-semibold text-rose-700">Daily Close &lt; 49.28 USD (-3.8%)</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CHART SECTION -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight uppercase">
+            CHART — SIZ26 Daily Candlesticks (Left Half), Forecast Target Band &amp; Option / Volume Bank Levels
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">Static candlestick display: Last 10 sessions occupy the left half of the canvas; right half is reserved for the upcoming 1–1.5 week forecast window</p>
+        </div>
+        <!-- Quick-Zoom Toggle Buttons -->
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <button id="btnZoomActive" type="button" class="zoom-btn-active px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Active Trading Zone ($44.00 – $61.50)
+          </button>
+          <button id="btnZoomFull" type="button" class="zoom-btn-inactive px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Full Levels Range ($44.00 – $72.00)
+          </button>
+        </div>
+      </div>
+
+      <!-- Legend Box Above the Chart -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-0.5 shrink-0">
+            <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
+            <span class="w-2.5 h-3.5 bg-[#dc2626] border border-[#b91c1c] inline-block"></span>
+          </span>
+          <span>Candlesticks (Left Half): <strong class="font-semibold">SIZ26 Daily OHLC (to $52.77)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-3.5 bg-emerald-500/20 border border-[#15803d] rounded-sm inline-block shrink-0"></span>
+          <span>Light-Green Band: <strong class="font-semibold">Forecast Target Zone ($53.52 – $55.80)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[3px] border-solid border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Solid Line: <strong class="font-semibold">Call Option Wall ($60.00 / $64.00 / $65.00)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[2.5px] border-solid border-[#16a34a] inline-block shrink-0"></span>
+          <span>Green Solid Line: <strong class="font-semibold">Put Option Wall ($50.00 OI 973 / $45.00 OI 2,147)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dashed border-[#9333ea] inline-block shrink-0"></span>
+          <span>Purple Dashed Line: <strong class="font-semibold">3M Volume Bank ($53.52 / $70.50)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dotted border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Dotted Line: <strong class="font-semibold">Invalidation Level / Cycle Low ($49.28)</strong></span>
+        </div>
+      </div>
+
+      <!-- Static Candlestick Chart Canvas -->
+      <div class="chart-wrapper">
+        <canvas id="sizChart"></canvas>
+      </div>
+    </section>
+
+    <!-- 1. FORECAST (1–1.5 WEEKS) -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        1. Forecast (1–1.5 Weeks: Nov 11–20, 2026)
+      </h2>
+
+      <!-- Summary KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5">
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.1 Scenario Probabilities</div>
+          <div class="text-sm font-bold text-slate-900">
+            FLAT / UP <span class="text-emerald-600">50%</span> · DOWN <span class="text-rose-600">30%</span> · Fast UP <span class="text-blue-600">20%</span>
+          </div>
+          <div class="text-xs text-slate-500 mt-0.5">Bank Reclaim &amp; Mean-Reversion Scenario</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.2 Target Range</div>
+          <div class="text-sm font-bold text-emerald-700">
+            53.52 – 55.80 USD
+          </div>
+          <div class="text-xs text-slate-600 mt-0.5">+4.5% to +8.9% vs Nov 10 close ($51.225)</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.3 Key Structural Pivot</div>
+          <div class="text-sm font-bold text-purple-700">53.52 USD (Lower Bank Edge)</div>
+          <div class="text-xs text-slate-600 mt-0.5">Backed by $50.00 Put Wall (973 OI)</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.4 Scenario Invalidation</div>
+          <div class="text-sm font-bold text-rose-700">Daily Close &lt; 49.28 USD</div>
+          <div class="text-xs text-slate-600 mt-0.5">Breaks Oct 30 low toward $45.00 Put Wall</div>
+        </div>
+      </div>
+
+      <!-- Detailed Level & Scenario Argumentation -->
+      <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+        <p>
+          <strong class="text-slate-900">Analytical Forecast:</strong> After carving out a major capitulation low at <strong>$49.276/oz</strong> on October 30, December 2026 Silver (<code class="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">SIZ26</code>) established a higher base above the <strong>$50.00/oz Put Wall</strong> (<code class="font-mono text-xs">SOZ26</code>, 973 OI). Yesterday's hot US October CPI print triggered a brief algorithmic pullback of -2.8% to <strong>$51.225/oz</strong> (Nov 10 settlement), but today's live session immediately reversed the drop with a <strong>+3.02% surge to $52.770/oz</strong> (2.1 typical daily moves). Price is now pressing directly against the lower boundary of the 3-month 80%-volume value bank at <strong>$53.52/oz</strong> (<code class="font-mono text-xs">pos = -0.14 edge</code>). Over the upcoming 1–1.5 week horizon (Nov 11–20), our primary scenario (<strong>50% probability</strong>) projects a defence of the $50.00–$51.22 support shelf and a decisive reclaim of the <strong>$53.52 lower bank edge</strong>, driving a recovery into the <strong>$53.52–$55.80/oz target zone</strong> (testing the 20-day SMA at ~$53.85 and late-October breakdown structure). This thesis is anchored by extreme CFTC COT commercial and swap-dealer covering (89th and 96th annual percentiles), completely washed-out speculative positioning (<code class="font-mono text-xs">Money Managers</code> at the 0th annual percentile), and positive capital flow divergence (<code class="font-mono text-xs">MFI minus RSI = +6.3</code>). A secondary bearish scenario (<strong>30% probability</strong>) involves renewed US dollar strength on Thursday's PPI release rejecting price at $53.52 for a retest of $49.28–$50.00, while an accelerated squeeze toward the <strong>$60.00 Call Wall (1,065 OI)</strong> carries a <strong>20% probability</strong>.
+        </p>
+        <p class="text-xs sm:text-sm text-slate-600 bg-slate-50 border border-slate-200/80 rounded-lg p-3">
+          <strong class="text-slate-900">External Analysts:</strong> Institutional and sector commentary is sharply divided between industrial headwinds and investment/monetary tailwinds. Bearish notes (<em>FXEmpire</em>, <em>APMEX</em>, <em>SMM News</em>) emphasize Chinese solar photovoltaic slowdown risks, solar "thrifting" (copper substitution), Endeavour Silver's Kolpa mine ramp-up in Peru, and post-CPI US Dollar strength (<code class="font-mono text-xs">DXY &gt; 102.25</code>). Conversely, bullish analysts (<em>Metals Focus</em>, <em>Kitco</em>, <em>Mexico Mining Center</em>) forecast investment demand to act as the primary upside driver over the next 12 months, reinforced by labor disruptions at First Majestic's San Dimas mine and tactical mean-reversion in the elevated Gold-to-Silver ratio (~78.0x).
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. WHY / FUNDAMENTAL & MICROSTRUCTURE BREAKDOWN -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        2. Why (Fundamental &amp; Microstructure Breakdown)
+      </h2>
+
+      <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.1 Fundamental Drivers &amp; Macro Primacy (Primary Foundation — Sections 1.3, 2.1, 3.1):</strong>
+          Verified CME Group warehouse depository series (Section 1.3) show total COMEX silver stocks declining -0.2% over the last observation (-0.4% over 4 observations) to <strong>334,046,385 troy oz</strong> (<strong>31st percentile of the 1-year range</strong>, <code class="font-mono text-xs">pos = 0.41 inside</code>). Crucially, Section 2.4 (<code class="font-mono text-xs">Contradiction C1</code>) highlights a major divergence between narrative sentiment and physical reality: while 19 out of 23 publications on solar industrial demand lean bearish (<code class="font-mono text-xs">drift strength 0.65 downward</code>), measured COMEX eligible inventories (<code class="font-mono text-xs">stocks_eligible</code>) fell across the 51-observation window to <strong>232,416,170 oz (27th annual percentile)</strong>, and registered stocks (<code class="font-mono text-xs">stocks_registered = 101,630,215 oz</code>, 63rd annual percentile) dropped <strong>-1.9% over the last 4 observations</strong> (down ~3.01 million oz from the Oct 29 peak of 104.64M oz). On primary mine supply (30 items, <code class="font-mono text-xs">drift 0.27 upward/bullish</code>), First Majestic Silver's labor disruption at the San Dimas mine in Mexico offsets Endeavour Silver's ramp-up at Kolpa in Peru. Macroeconomically (Section 3.1), nominal 10-year Treasury yields (<code class="font-mono text-xs">DGS10 = 4.88%</code>) and 10-year real yields (<code class="font-mono text-xs">DFII10 = 2.66%</code>) remain down -5.2% and -5.0% over 21 days respectively, softening the medium-term rate headwind despite Tuesday's hot October CPI print.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.2 Open Interest (OI), COT Positioning, Option Walls &amp; Curve Structure (Core Structural Driver — Sections 1.1, 1.2, 1.5, 1.6):</strong>
+          <ul>
+            <li class="mb-1.5">• <strong>COT Positioning Extremes &amp; Who Is Trapped (Section 1.2 &amp; 1.4):</strong> The CFTC COT structure displays a textbook contrarian bullish setup. Speculative <code class="font-mono text-xs">Money Managers</code> slashed net length by -28.9% in one week (-65.6% over 4 weeks) to just <strong>2,665 contracts — the 0th percentile of the 1-year range</strong> (<code class="font-mono text-xs">pos = 0.00 trend</code>, falling 6 weeks in a row at the extreme). Small <code class="font-mono text-xs">Non-reportable</code> traders also capitulated (-22.0% 1w to 14,045, <strong>0th annual percentile</strong>), pushing the <code class="font-mono text-xs">speculative minus hedging</code> gap down to 31,323 (<strong>0th annual percentile</strong>). Taking the exact opposite side, commercial <code class="font-mono text-xs">Producers and Processors</code> cut their net short by 1,914 contracts (+12.7% 1w, +20.6% 4w) to <strong>-13,137 (89th annual percentile, <code class="font-mono text-xs">pos = 1.00 break</code> fresh 3-month high)</strong>, <code class="font-mono text-xs">Swap Dealers</code> covered 1,472 shorts to <strong>-19,095 (96th annual percentile, <code class="font-mono text-xs">pos = 0.94 edge</code>)</strong>, and <code class="font-mono text-xs">Other Large Reportables</code> expanded net longs by +11.9% to <strong>15,521 (85th annual percentile, <code class="font-mono text-xs">pos = 1.00 break</code>)</strong>.</li>
+            <li class="mb-1.5">• <strong>Open Interest Mechanics (Section 1.1 &amp; 1.2):</strong> Total all-month open interest rose +3.1% w/w (+12.3% m/m) to <strong>135,196 contracts</strong> (ex-spread 91,082; <code class="font-mono text-xs">spread share = 32.6%</code>). Active <code class="font-mono text-xs">SIZ26</code> OI peaked at 117,207 on Oct 28 and eased to <strong>113,080</strong> by Nov 9 as weak longs finished liquidating into commercial buying.</li>
+            <li class="mb-1.5">• <strong>Option Walls &amp; Strike Flows (Section 1.5):</strong> While overall comparable <code class="font-mono text-xs">put/call ratio = 1.56</code> (+0.07 shift) reflects heavy downside tail-hedging at the <strong>$45.00 Put Wall (2,147 OI, +23 built)</strong> and <strong>$50.00 Put Wall (973 OI)</strong>, immediate daily strike changes are decidedly bullish: traders actively built near-the-money calls at <strong>$52.50 (+54 built to 197 OI)</strong>, <strong>$53.25 (+27 built)</strong>, <strong>$55.25 (+21 built)</strong>, and the major <strong>$60.00 Call Wall (+98 built in SOF27; 1,065 OI in SOZ26)</strong>.</li>
+            <li>• <strong>Futures Curve Structure (Section 1.6):</strong> As of Nov 11, the silver curve trades in moderate contango from the front month (<code class="font-mono text-xs">SIZ26 = $52.77</code>) to March 2027 (<code class="font-mono text-xs">SIH27 = $53.47</code>, <strong>+1.3%</strong>), May 2027 (<code class="font-mono text-xs">SIK27 = $53.85</code>, <strong>+2.0%</strong>), and September 2027 (<code class="font-mono text-xs">SIU27 = $54.85</code>, <strong>+3.9%</strong>), signaling no acute spot lease squeeze but normal financing carry.</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.3 Cross-Asset &amp; Relative Value Context (Mandatory Check — Sections 3.2, 3.3):</strong>
+          Over the past 21 trading days, Silver fell <strong>-11.7%</strong> against a <strong>-6.2%</strong> decline in the Nasdaq-100 risk benchmark (<code class="font-mono text-xs">27,835</code>), resulting in a <strong>-5.5 percentage-point underperformance gap</strong>. Against peer precious metals (Section 3.3), Silver's 21-day drop (-11.7%) also lagged COMEX Gold (<code class="font-mono text-xs">GCZ26 = $4,030.20</code> settled / <code class="font-mono text-xs">$4,068.50</code> live, -2.7% 21d) and NYMEX Platinum (<code class="font-mono text-xs">PLF27 = $1,538.40</code> settled / <code class="font-mono text-xs">$1,573.70</code> live, -7.1% 21d). Calculated from verified Nov 10 settlements, the <strong>Gold-to-Silver Ratio stood at 78.68x</strong> ($4,030.20 / $51.225), but today's outsized +3.02% silver rally (versus Gold's +0.95% move) has already compressed the live ratio back down to <strong>77.10x</strong> ($4,068.50 / $52.770), confirming high-beta catch-up rotation into silver.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.4 Subordinate Technical Confirmation (Auxiliary Timing — 10–15% Weight):</strong>
+          Technical indicators (180-day window) provide a strong secondary confirmation of institutional accumulation beneath the surface. While <code class="font-mono text-xs">RSI(14) = 36.40</code> (+9.00 over 5d, 35th percentile) remains depressed and price sits <strong>-4.90% below its 20-day SMA (~$53.86)</strong> and <strong>-14.40% below its 50-day SMA (~$59.84)</strong>, the volume-weighted <code class="font-mono text-xs">MFI(14) = 42.70</code> (+9.40 over 5d, 47th percentile) leads momentum by a positive <strong><code class="font-mono text-xs">MFI minus RSI = +6.3</code> spread ("money is coming in ahead of price")</strong>. Furthermore, 3-month range width is contracting (-2.06 1d, -5.16 5d to 21.43%), setting up a volatility expansion once the $53.52 volume bank edge is reclaimed.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. UPCOMING EVENTS & TRIGGERS -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        3. Upcoming Events &amp; Triggers (Nov 11–20, 2026)
+      </h2>
+      <div class="table-wrap">
+        <table class="w-full text-sm text-left border-collapse min-w-[720px]">
+          <thead>
+            <tr class="bg-slate-50 border-y border-slate-200 text-slate-600 font-semibold">
+              <th class="py-3 px-4">Event / Release</th>
+              <th class="py-3 px-4">Market Impact &amp; Transmission Mechanism for SIZ26</th>
+              <th class="py-3 px-4 whitespace-nowrap">Date</th>
+              <th class="py-3 px-4">Impact</th>
+              <th class="py-3 px-4">Reference / Prior</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Initial Jobless Claims &amp; Continuing Claims</td>
+              <td class="py-3 px-4">High-frequency labor market test; any uptick in claims will soften US Treasury yields (DGS10 at 4.88%) and assist SIZ26 in clearing the $53.52 lower volume bank edge.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-12</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">UNRATE at 4.10%</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-amber-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Producer Price Index (PPI) for October</td>
+              <td class="py-3 px-4">Primary macro catalyst of the week following Tuesday's hot CPI (337.48); an in-line or cooler wholesale inflation print will cap DXY strength and fuel silver's push toward $55.00+.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-13</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Follows Oct CPI 337.48</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-emerald-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">CFTC Commitments of Traders (COT) Report</td>
+              <td class="py-3 px-4">Delayed from Friday due to the Nov 11 US Veterans Day holiday; critical check on whether Money Managers bounced from their 0th-percentile extreme (2,665 net longs).</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-16</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">MM: 2,665 (0%ile) / Comm: -13,137</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Retail Sales &amp; Industrial Production (October)</td>
+              <td class="py-3 px-4">Direct gauge of US manufacturing, electronics, and industrial silver consumption alongside broader macro growth resilience.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-17</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">Watches electronics/solar demand</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">Daily CME COMEX Silver Warehouse Stocks Report</td>
+              <td class="py-3 px-4">Tracks continuation of the -1.9% 4-day outflow in registered stocks (101.63M oz) and multi-week decline in eligible stocks (232.42M oz).</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">Daily</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">Total: 334.05M oz (31% yr pct)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Static Chart.js Candlestick & Levels Script (Left Half Candlesticks / Right Half Reserved) -->
+  <script>
+    window.onload = function() {
+      // 20 total X-axis slots:
+      // Indices 0..9 (Left Half) = 10 actual trading sessions (Oct 29 – Nov 11, 2026)
+      // Indices 10..19 (Right Half) = 10 empty future slots reserved for Nov 12–25, 2026
+      const labels = [
+        '2026-10-29', '2026-10-30', '2026-11-02', '2026-11-03', '2026-11-04',
+        '2026-11-05', '2026-11-06', '2026-11-09', '2026-11-10', '2026-11-11',
+        '2026-11-12', '2026-11-13', '2026-11-16', '2026-11-17', '2026-11-18',
+        '2026-11-19', '2026-11-20', '2026-11-23', '2026-11-24', '2026-11-25'
+      ];
+
+      // Verified closes from reports_today (Section 1.1) for Oct 29 – Nov 10 + Nov 11 Live (52.770)
+      const ohlcData = [
+        { xIndex: 0, date: '2026-10-29', o: 53.666, h: 53.950, l: 52.100, c: 52.380 },
+        { xIndex: 1, date: '2026-10-30', o: 52.380, h: 52.550, l: 49.276, c: 49.276 },
+        { xIndex: 2, date: '2026-11-02', o: 49.276, h: 51.200, l: 49.150, c: 50.888 },
+        { xIndex: 3, date: '2026-11-03', o: 50.888, h: 51.050, l: 49.550, c: 49.753 },
+        { xIndex: 4, date: '2026-11-04', o: 49.753, h: 52.500, l: 49.700, c: 52.282 },
+        { xIndex: 5, date: '2026-11-05', o: 52.282, h: 52.850, l: 51.800, c: 52.376 },
+        { xIndex: 6, date: '2026-11-06', o: 52.376, h: 52.600, l: 51.650, c: 51.942 },
+        { xIndex: 7, date: '2026-11-09', o: 51.942, h: 52.950, l: 51.850, c: 52.693 },
+        { xIndex: 8, date: '2026-11-10', o: 52.693, h: 52.800, l: 50.950, c: 51.225 },
+        { xIndex: 9, date: '2026-11-11', o: 51.225, h: 52.920, l: 51.180, c: 52.770 }
+      ];
+
+      // Dummy dataset array with nulls on the right half so Chart.js scales the X-axis properly
+      const closePlaceholders = labels.map((_, idx) => {
+        const found = ohlcData.find(d => d.xIndex === idx);
+        return found ? found.c : null;
+      });
+
+      // Horizontal structural, option wall, and forecast levels from Section 1.4 & 1.5
+      const horizontalLevels = [
+        { price: 70.50, label: '70.50 Volume Bank (Upper)', color: '#9333ea', width: 2.2, dash: [6, 4] },
+        { price: 65.00, label: '65.00 Call Wall (1,122) / Put (933)', color: '#dc2626', width: 3.4, dash: [] },
+        { price: 64.00, label: '64.00 Call Wall (656 SOF27)', color: '#dc2626', width: 2.4, dash: [] },
+        { price: 60.00, label: '60.00 Call Wall (1,065 SOZ26)', color: '#dc2626', width: 3.2, dash: [] },
+        { price: 55.80, label: '55.80 Upper Target (+8.9%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+        { price: 53.52, label: '53.52 Volume Bank (Lower) / Target', color: '#9333ea', width: 2.5, dash: [6, 4] },
+        { price: 50.00, label: '50.00 Put Wall (973 SOZ26)', color: '#16a34a', width: 2.8, dash: [] },
+        { price: 49.28, label: '49.28 Invalidation / Oct 30 Low', color: '#dc2626', width: 2.2, dash: [2, 4] },
+        { price: 45.00, label: '45.00 Put Wall (2,147 SOZ26)', color: '#16a34a', width: 3.4, dash: [] }
+      ];
+
+      function drawRoundedRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      }
+
+      const staticCandlesAndLevelsPlugin = {
+        id: 'staticCandlesAndLevelsPlugin',
+        beforeLayout(chart) {
+          const isMobile = window.innerWidth < 640;
+          chart.options.layout.padding.right = isMobile ? 12 : 240;
+        },
+        beforeDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          ctx.save();
+
+          // 1. Subtle background tint on the Right Half (indices 10..19) to show reserved future space
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.fillStyle = 'rgba(241, 245, 249, 0.45)';
+          ctx.fillRect(xDivider, top, right - xDivider, bottom - top);
+
+          // Vertical divider line at midpoint (between index 9 and 10)
+          ctx.beginPath();
+          ctx.strokeStyle = '#cbd5e1';
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([4, 4]);
+          ctx.moveTo(xDivider, top);
+          ctx.lineTo(xDivider, bottom);
+          ctx.stroke();
+
+          // 2. Shaded Light-Green Target Zone between 53.52 and 55.80 across the chart
+          const yTopTarget = y.getPixelForValue(55.80);
+          const yBottomTarget = y.getPixelForValue(53.52);
+          const clampTop = Math.max(top, Math.min(bottom, yTopTarget));
+          const clampBottom = Math.max(top, Math.min(bottom, yBottomTarget));
+          if (clampBottom > clampTop) {
+            ctx.fillStyle = 'rgba(34, 197, 94, 0.18)';
+            ctx.fillRect(left, clampTop, right - left, clampBottom - clampTop);
+          }
+
+          // 3. Draw Horizontal Option Walls, Volume Bank Edges, and Target Lines
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          visibleLevels.forEach(lvl => {
+            ctx.beginPath();
+            ctx.strokeStyle = lvl.color;
+            ctx.lineWidth = lvl.width;
+            ctx.setLineDash(lvl.dash);
+            ctx.moveTo(left, lvl.yPos);
+            ctx.lineTo(right, lvl.yPos);
+            ctx.stroke();
+          });
+
+          // 4. Draw OHLC Candlesticks strictly in the Left Half (indices 0..9)
+          const slotWidth = x.getPixelForValue(1) - x.getPixelForValue(0);
+          const candleWidth = Math.max(6, Math.min(22, slotWidth * 0.58));
+
+          ohlcData.forEach(d => {
+            const xCenter = x.getPixelForValue(d.xIndex);
+            const yHigh = y.getPixelForValue(d.h);
+            const yLow = y.getPixelForValue(d.l);
+            const yOpen = y.getPixelForValue(d.o);
+            const yClose = y.getPixelForValue(d.c);
+
+            const isBull = d.c >= d.o;
+            const fillColor = isBull ? '#16a34a' : '#dc2626';
+            const borderColor = isBull ? '#15803d' : '#b91c1c';
+
+            // High-Low Wick
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.5;
+            ctx.moveTo(xCenter, yHigh);
+            ctx.lineTo(xCenter, yLow);
+            ctx.stroke();
+
+            // Open-Close Body
+            const bodyTop = Math.min(yOpen, yClose);
+            const bodyBottom = Math.max(yOpen, yClose);
+            const bodyHeight = Math.max(2, bodyBottom - bodyTop);
+
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.2;
+            ctx.strokeRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+          });
+
+          ctx.restore();
+        },
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          const isMobile = window.innerWidth < 640;
+          ctx.save();
+
+          // Subtle header watermark labels for Left Half vs Right Half
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.font = '600 10px Inter, sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.textAlign = 'left';
+          ctx.fillText('ACTUAL SESSIONS (OCT 29 – NOV 11)', left + 8, top + 14);
+          ctx.fillText('FORECAST WINDOW / RESERVED SPACE', xDivider + 10, top + 14);
+
+          // Level Labels on the Right Edge with Anti-Collision Spacing
+          ctx.font = isMobile ? '600 10px Inter, sans-serif' : '600 11px Inter, sans-serif';
+          ctx.textBaseline = 'middle';
+
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          const minLabelGap = isMobile ? 14 : 14;
+          for (let i = 0; i < visibleLevels.length; i++) {
+            if (i === 0) {
+              visibleLevels[i].labelY = Math.max(top + 8, visibleLevels[i].yPos);
+            } else {
+              visibleLevels[i].labelY = Math.max(
+                visibleLevels[i].yPos,
+                visibleLevels[i - 1].labelY + minLabelGap
+              );
+            }
+          }
+
+          visibleLevels.forEach(lvl => {
+            if (!isMobile) {
+              if (Math.abs(lvl.labelY - lvl.yPos) > 2) {
+                ctx.beginPath();
+                ctx.setLineDash([]);
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = lvl.color;
+                ctx.moveTo(right, lvl.yPos);
+                ctx.lineTo(right + 6, lvl.labelY);
+                ctx.stroke();
+              }
+              ctx.textAlign = 'left';
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right + 9, lvl.labelY);
+            } else {
+              ctx.textAlign = 'right';
+              const textWidth = ctx.measureText(lvl.label).width;
+              const pillPaddingX = 5;
+              const pillHeight = 13;
+              const pillX = right - 6 - textWidth - pillPaddingX;
+              const pillY = lvl.labelY - pillHeight / 2;
+
+              drawRoundedRect(ctx, pillX, pillY, textWidth + pillPaddingX * 2, pillHeight, 3);
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
+              ctx.fill();
+
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right - 6, lvl.labelY);
+            }
+          });
+
+          ctx.restore();
+        }
+      };
+
+      const ctx = document.getElementById('sizChart').getContext('2d');
+
+      const sizChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'SIZ26 Close',
+            data: closePlaceholders,
+            borderColor: 'transparent',
+            backgroundColor: 'transparent',
+            pointRadius: 0,
+            pointHoverRadius: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          events: [],
+          layout: {
+            padding: {
+              right: window.innerWidth < 640 ? 12 : 240,
+              top: 16,
+              bottom: 10,
+              left: 4
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+          scales: {
+            y: {
+              min: 44.0,
+              max: 61.5,
+              ticks: {
+                stepSize: 2.0,
+                callback: (val) => '$' + val.toFixed(2)
+              },
+              title: {
+                display: true,
+                text: 'Price (USD / troy oz)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            },
+            x: {
+              offset: true,
+              ticks: {
+                maxRotation: 45,
+                minRotation: 0,
+                callback: function(value, index) {
+                  return index < 10 ? labels[index] : '';
+                }
+              },
+              title: {
+                display: true,
+                text: 'Trading Session (Left Half: Historical OHLC | Right Half: Reserved Forecast Space)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            }
+          }
+        },
+        plugins: [staticCandlesAndLevelsPlugin]
+      });
+
+      const btnZoomActive = document.getElementById('btnZoomActive');
+      const btnZoomFull = document.getElementById('btnZoomFull');
+
+      btnZoomActive.addEventListener('click', function() {
+        sizChart.options.scales.y.min = 44.0;
+        sizChart.options.scales.y.max = 61.5;
+        sizChart.options.scales.y.ticks.stepSize = 2.0;
+        btnZoomActive.classList.add('zoom-btn-active');
+        btnZoomActive.classList.remove('zoom-btn-inactive');
+        btnZoomFull.classList.remove('zoom-btn-active');
+        btnZoomFull.classList.add('zoom-btn-inactive');
+        sizChart.update();
+      });
+
+      btnZoomFull.addEventListener('click', function() {
+        sizChart.options.scales.y.min = 44.0;
+        sizChart.options.scales.y.max = 72.0;
+        sizChart.options.scales.y.ticks.stepSize = 4.0;
+        btnZoomFull.classList.add('zoom-btn-active');
+        btnZoomFull.classList.remove('zoom-btn-inactive');
+        btnZoomActive.classList.remove('zoom-btn-active');
+        btnZoomActive.classList.add('zoom-btn-inactive');
+        sizChart.update();
+      });
+    };
+  </script>
+</body>
+</html>
