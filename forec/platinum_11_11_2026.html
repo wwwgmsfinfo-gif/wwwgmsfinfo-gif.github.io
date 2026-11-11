@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>platinum_11.11.2026</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js v4.4.1 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 560px;
+    }
+    @media (max-width: 640px) {
+      .chart-wrapper {
+        height: 460px;
+      }
+    }
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .zoom-btn-active {
+      background-color: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    .zoom-btn-inactive {
+      background-color: #ffffff;
+      color: #475569;
+      border-color: #cbd5e1;
+    }
+    .zoom-btn-inactive:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body class="antialiased py-4 sm:py-6 px-3 sm:px-6 lg:px-8">
+
+  <!-- Main Container -->
+  <div class="max-w-6xl mx-auto space-y-5 sm:space-y-6">
+
+    <!-- Freshness Verification Banner -->
+    <div class="bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+        <span><strong>CRITICAL FRESHNESS CHECK:</strong> Active baseline verified from <code class="font-mono font-bold">reports_today</code> generated on <strong>2026-11-11 09:00 UTC</strong>. Cross-verified with NYMEX/CME settlements &amp; live morning quotes ($1,573.70/oz).</span>
+      </div>
+      <span class="hidden sm:inline-block font-mono text-xs text-emerald-700 font-semibold">PLF27 • JAN 2027</span>
+    </div>
+
+    <!-- Header Banner -->
+    <header class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              FORECAST: FLAT / UP (BASE HOLD &amp; RECOVERY ABOVE LOWER VOLUME BANK) • 50%
+            </span>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">PLATINUM FUTURES • PLF27 (NYMEX)</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            PLATINUM (PLF27) — 1–1.5 Week Forecast (Nov 11–20, 2026)
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1.5 font-medium">
+            Report Close (Nov 10): <span class="text-slate-900 font-bold">1,538.40 USD / oz</span> | Live Intraday (Nov 11): <span class="text-blue-600 font-bold">1,573.70 USD / oz</span> <span class="text-emerald-600 font-semibold">(+2.29% 1d • +7.9% from Oct 29 low)</span> | Window: <span class="text-slate-800 font-semibold">Days 1–10 (Nov 11–20, 2026)</span>
+          </p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-600 flex flex-col sm:items-end gap-1 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="font-semibold text-slate-800">Target Zone:</span>
+            <span class="font-bold text-emerald-700">1,585.00 – 1,625.00 USD (+3.0% … +5.6% vs Nov 10)</span>
+          </div>
+          <div class="text-slate-500">
+            Invalidation Level: <span class="font-semibold text-rose-700">Daily Close &lt; 1,500.00 USD (-2.5%)</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CHART SECTION -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight uppercase">
+            CHART — PLF27 Daily Candlesticks (Left Half), Forecast Target Band &amp; Option / Volume Bank Levels
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">Static candlestick display: Last 10 sessions occupy the left half of the canvas; right half is reserved for the upcoming 1–1.5 week forecast window</p>
+        </div>
+        <!-- Quick-Zoom Toggle Buttons -->
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <button id="btnZoomActive" type="button" class="zoom-btn-active px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Active Trading Zone ($1,430 – $1,720)
+          </button>
+          <button id="btnZoomFull" type="button" class="zoom-btn-inactive px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Full Levels Range ($1,430 – $1,970)
+          </button>
+        </div>
+      </div>
+
+      <!-- Legend Box Above the Chart -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-0.5 shrink-0">
+            <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
+            <span class="w-2.5 h-3.5 bg-[#dc2626] border border-[#b91c1c] inline-block"></span>
+          </span>
+          <span>Candlesticks (Left Half): <strong class="font-semibold">PLF27 Daily OHLC (to $1,573.70)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-3.5 bg-emerald-500/20 border border-[#15803d] rounded-sm inline-block shrink-0"></span>
+          <span>Light-Green Band: <strong class="font-semibold">Forecast Target Zone ($1,585 – $1,625)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[3px] border-solid border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Solid Line: <strong class="font-semibold">Call Option Wall (Resistance, scaled by OI)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[2.5px] border-solid border-[#16a34a] inline-block shrink-0"></span>
+          <span>Green Solid Line: <strong class="font-semibold">Put Option Wall ($1,550 OI 320 / $1,450 OI 200)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dashed border-[#9333ea] inline-block shrink-0"></span>
+          <span>Purple Dashed Line: <strong class="font-semibold">3M Volume Bank ($1,556.45 / $1,910.40)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dotted border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Dotted Line: <strong class="font-semibold">Invalidation Level / Put Floor ($1,500.00)</strong></span>
+        </div>
+      </div>
+
+      <!-- Static Candlestick Chart Canvas -->
+      <div class="chart-wrapper">
+        <canvas id="plfChart"></canvas>
+      </div>
+    </section>
+
+    <!-- 1. FORECAST (1–1.5 WEEKS) -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        1. Forecast (1–1.5 Weeks: Nov 11–20, 2026)
+      </h2>
+
+      <!-- Summary KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5">
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.1 Scenario Probabilities</div>
+          <div class="text-sm font-bold text-slate-900">
+            FLAT / UP <span class="text-emerald-600">50%</span> · DOWN <span class="text-rose-600">30%</span> · Fast UP <span class="text-blue-600">20%</span>
+          </div>
+          <div class="text-xs text-slate-500 mt-0.5">Base Hold &amp; Recovery Scenario</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.2 Target Range</div>
+          <div class="text-sm font-bold text-emerald-700">
+            1,585.00 – 1,625.00 USD
+          </div>
+          <div class="text-xs text-slate-600 mt-0.5">+3.0% to +5.6% vs Nov 10 close ($1,538.40)</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.3 Key Structural Pivot</div>
+          <div class="text-sm font-bold text-purple-700">1,556.45 USD (Lower Bank)</div>
+          <div class="text-xs text-slate-600 mt-0.5">Backed by $1,550 Put Wall (320 OI)</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.4 Scenario Invalidation</div>
+          <div class="text-sm font-bold text-rose-700">Daily Close &lt; 1,500.00 USD</div>
+          <div class="text-xs text-slate-600 mt-0.5">Opens downside vacuum to $1,450 Put Wall</div>
+        </div>
+      </div>
+
+      <!-- Detailed Level & Scenario Argumentation -->
+      <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+        <p>
+          <strong class="text-slate-900">Analytical Forecast:</strong> Following the late-October capitulation flush to $1,458.30 (Oct 29), January 2027 Platinum (<code class="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">PLF27</code>) mounted a steady multi-day recovery to $1,570.00–$1,585.00 before absorbing yesterday's hot US October CPI shock via a brief pullback to <strong>$1,538.40/oz</strong> (Nov 10 settlement). Today's immediate rebound to <strong>$1,573.70/oz (+2.29%)</strong> reclaimed both the primary option support wall at <strong>$1,550.00</strong> (<code class="font-mono text-xs">POF27</code>, 320 put contracts) and the lower boundary of the 3-month 80%-volume value bank at <strong>$1,556.45/oz</strong>. Over the next 1–1.5 weeks (Nov 11–20), our primary scenario (<strong>50% probability</strong>) projects a consolidation base above $1,550.00–$1,556.45 followed by a measured grind into the <strong>$1,585.00–$1,625.00/oz target zone</strong>, supported by depleted CME stocks (251,216 oz, 2nd annual percentile) and commercial producer accumulation (98th annual percentile in COT). A secondary bearish scenario (<strong>30% probability</strong>) involves renewed Treasury yield spikes on Thursday's US PPI release forcing a retest of $1,500.00–$1,535.00, while a fast breakout above $1,625.00 toward $1,670–$1,700 carries a <strong>20% probability</strong>.
+        </p>
+        <p class="text-xs sm:text-sm text-slate-600 bg-slate-50 border border-slate-200/80 rounded-lg p-3">
+          <strong class="text-slate-900">External Analysts:</strong> Macro desks (<em>TradingKey</em>, <em>Moneycontrol</em>) remain cautious near-term due to post-CPI US dollar strength (<code class="font-mono text-xs">DXY &gt; 102.25</code>) and 10Y yields at 4.88%, whereas PGM specialists (<em>SMM News</em>, <em>Kitco</em>, <em>WPIC</em>) point to structural support from a 3% output drop at <em>Impala Platinum</em> and South African smelting constraints.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. WHY / FUNDAMENTAL & MICROSTRUCTURE BREAKDOWN -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        2. Why (Fundamental &amp; Microstructure Breakdown)
+      </h2>
+
+      <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.1 Fundamental Drivers &amp; Macro Primacy (Primary Foundation — Sections 1.3, 2.1, 3.1):</strong>
+          Verified CME warehouse depository data (Section 1.3) confirm that total platinum inventories (<code class="font-mono text-xs">stocks_total = 251,216 oz</code>) remain compressed at the <strong>2% mark of the 1-year range</strong>, following steady outflows from late-October levels (252,070 oz). On the primary supply side, South African producer reports confirm a 3% production drop at <em>Impala Platinum</em> due to safety stoppages and furnace maintenance schedules, alongside a 12% Q3 PGM drop at Zimbabwe's <em>Unki</em> mine. On the macroeconomic front (Section 3.1), yesterday's November 10 release of higher-than-expected US October CPI pushed the 2-year Treasury yield (<code class="font-mono text-xs">DGS2</code>) to <strong>4.56%</strong>, the 10-year nominal yield (<code class="font-mono text-xs">DGS10</code>) to <strong>4.88%</strong>, and the US Dollar Index above <strong>102.25</strong>. While this macro shock triggered an algorithmic dip to $1,538.40 on Nov 10, today's immediate +2.29% bounce to $1,573.70 demonstrates that physical tightness is overriding rate-driven paper selling below $1,550.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.2 Open Interest (OI), COT Positioning, Option Walls &amp; Curve Structure (Core Structural Driver — Sections 1.1, 1.2, 1.5, 1.6):</strong>
+          <ul>
+            <li class="mb-1.5">• <strong>Open Interest &amp; Who Is Trapped:</strong> Total open interest (<code class="font-mono text-xs">oi_total</code>) expanded to a fresh cycle high of <strong>91,849 contracts</strong> (<code class="font-mono text-xs">pos = 1.00 trend</code>, up from 84,533 on Oct 30). Crucially, as OI rose over the past 7 sessions, price rallied from $1,460 to $1,573.70 — proving that new institutional money entered on the long side and late trend-following shorts who sold the Oct 29 breakdown below $1,500 are now <strong>trapped underwater by $75–$115/oz</strong>.</li>
+            <li class="mb-1.5">• <strong>CFTC COT Positioning Extremes:</strong> Commercial hedgers (<code class="font-mono text-xs">Producers and Processors</code>) sit at the <strong>98th percentile of their 1-year range</strong> (minimal net short hedging, aggressive physical lock-ins), while <code class="font-mono text-xs">Non-reportable</code> retail/small speculators liquidated down to the <strong>2nd annual percentile</strong>. <code class="font-mono text-xs">Swap Dealers</code> remain heavily short, creating latent short-covering demand if $1,585 is cleared.</li>
+            <li class="mb-1.5">• <strong>Option Walls &amp; Put/Call Skew (Section 1.5):</strong> Active option series (<code class="font-mono text-xs">POF27</code>) show a rising <code class="font-mono text-xs">put/call ratio = 0.63</code> (+0.06 shift toward puts) driven by institutional floor-building at the <strong>$1,550.00 Put Wall (320 OI)</strong>, <strong>$1,500.00 Put Support (225 OI)</strong>, and <strong>$1,450.00 Put Wall (200 OI)</strong>. Overhead call resistance is sparse until $1,670–$1,700, with major call walls concentrated far above at <strong>$1,800.00 (244 OI)</strong> and <strong>$1,950.00 (280 OI)</strong>.</li>
+            <li>• <strong>Futures Curve Structure (Section 1.6):</strong> The platinum curve remains in moderate contango (+2.1% to +3.7% across deferred 2027 contracts), indicating adequate short-term lease liquidity while rewarding commercial carry strategies.</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.3 Cross-Asset &amp; Relative Value Context (Mandatory Check — Sections 3.2, 3.3):</strong>
+          Platinum continues to trade at an extreme historical discount of roughly <strong>-$2,500/oz (-61.5%)</strong> relative to COMEX Gold (trading near $4,070–$4,100/oz), providing deep relative-value insulation against macro gold liquidations. Simultaneously, against sister metal Palladium (<code class="font-mono text-xs">PAZ26</code> at $1,020.80 close / $1,048.50 live), Platinum commands a <strong>+$517.60 to +$525.20/oz premium (+50.7%)</strong>. As noted by UBS and sector analysts, while this wide Pt/Pd premium slows fresh tri-metal autocatalyst substitution at the margin, existing OEM platform tooling locks in baseline platinum demand through 2027.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.4 Subordinate Technical Confirmation (Auxiliary Timing — 10–15% Weight):</strong>
+          As of the Nov 10 report close ($1,538.40), <code class="font-mono text-xs">RSI(14) = 43.60</code> (recovering from extreme 22.50 readings on Oct 29) and <code class="font-mono text-xs">MFI(14) = 33.80</code>, with price sitting <strong>-8.70% below its 50-day SMA</strong> (~$1,685.00). While the negative <code class="font-mono text-xs">MFI minus RSI (-9.8)</code> spread reflects thin volume during yesterday's CPI dip, today's bullish engulfing candle back to $1,573.70 confirms active dip-buying right at the $1,550–$1,556.45 structural pivot.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. UPCOMING EVENTS & TRIGGERS -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        3. Upcoming Events &amp; Triggers (Nov 11–20, 2026)
+      </h2>
+      <div class="table-wrap">
+        <table class="w-full text-sm text-left border-collapse min-w-[720px]">
+          <thead>
+            <tr class="bg-slate-50 border-y border-slate-200 text-slate-600 font-semibold">
+              <th class="py-3 px-4">Event / Release</th>
+              <th class="py-3 px-4">Market Impact &amp; Transmission Mechanism for PLF27</th>
+              <th class="py-3 px-4 whitespace-nowrap">Date</th>
+              <th class="py-3 px-4">Impact</th>
+              <th class="py-3 px-4">Reference / Prior</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">Stats SA: South Africa Mining Production (September)</td>
+              <td class="py-3 px-4">Direct primary PGM supply print from the world's largest platinum producer (~70% global mine supply); confirms extent of Q3 smelter/safety disruptions.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-12</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Impala Q3 -3% / Unki -12%</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Initial Jobless Claims &amp; Continuing Claims</td>
+              <td class="py-3 px-4">High-frequency labor gauge driving DXY and 2Y/10Y Treasury yields following Tuesday's hot CPI print.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-12</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">DGS10 at 4.88%</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-amber-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Producer Price Index (PPI) for October</td>
+              <td class="py-3 px-4">Critical wholesale inflation test; a cool or in-line print will ease post-CPI DXY strength and catalyze PLF27's push into the $1,585–$1,625 target band.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-13</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Follows hot Oct CPI</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-emerald-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">CFTC Commitments of Traders (COT) Report</td>
+              <td class="py-3 px-4">Delayed from Friday due to Nov 11 US Veterans Day holiday; verifies whether Money Managers added longs as OI hit record 91,849 contracts.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-16</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">OI: 91,849 (Producers 98%ile)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Retail Sales &amp; Industrial Production (October)</td>
+              <td class="py-3 px-4">Motor vehicle retail sales and auto assembly capacity utilization directly impact North American autocatalyst demand expectations.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-17</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">Prior Auto Cap. Util: 67.8%</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">Daily CME NYMEX Platinum Warehouse Stocks Report</td>
+              <td class="py-3 px-4">Monitors registered &amp; eligible physical outflows from current 2% annual percentile floor (251,216 oz).</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">Daily</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">251,216 oz (2% yr pct)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Static Chart.js Candlestick & Levels Script (Left Half Candlesticks / Right Half Reserved) -->
+  <script>
+    window.onload = function() {
+      const labels = [
+        '2026-10-29', '2026-10-30', '2026-11-02', '2026-11-03', '2026-11-04',
+        '2026-11-05', '2026-11-06', '2026-11-09', '2026-11-10', '2026-11-11',
+        '2026-11-12', '2026-11-13', '2026-11-16', '2026-11-17', '2026-11-18',
+        '2026-11-19', '2026-11-20', '2026-11-23', '2026-11-24', '2026-11-25'
+      ];
+
+      const ohlcData = [
+        { xIndex: 0, date: '2026-10-29', o: 1530.00, h: 1534.50, l: 1452.00, c: 1458.30 },
+        { xIndex: 1, date: '2026-10-30', o: 1458.30, h: 1482.00, l: 1445.00, c: 1465.20 },
+        { xIndex: 2, date: '2026-11-02', o: 1465.20, h: 1498.00, l: 1456.00, c: 1492.40 },
+        { xIndex: 3, date: '2026-11-03', o: 1492.40, h: 1518.50, l: 1484.00, c: 1512.00 },
+        { xIndex: 4, date: '2026-11-04', o: 1512.00, h: 1534.00, l: 1498.50, c: 1524.80 },
+        { xIndex: 5, date: '2026-11-05', o: 1524.80, h: 1558.00, l: 1518.00, c: 1551.50 },
+        { xIndex: 6, date: '2026-11-06', o: 1551.50, h: 1578.00, l: 1542.00, c: 1570.20 },
+        { xIndex: 7, date: '2026-11-09', o: 1570.20, h: 1586.40, l: 1552.00, c: 1561.00 },
+        { xIndex: 8, date: '2026-11-10', o: 1561.00, h: 1566.50, l: 1532.00, c: 1538.40 },
+        { xIndex: 9, date: '2026-11-11', o: 1538.40, h: 1576.80, l: 1534.00, c: 1573.70 }
+      ];
+
+      const closePlaceholders = labels.map((_, idx) => {
+        const found = ohlcData.find(d => d.xIndex === idx);
+        return found ? found.c : null;
+      });
+
+      const horizontalLevels = [
+        { price: 1950.00, label: '1,950.00 Call Wall (280)', color: '#dc2626', width: 3.6, dash: [] },
+        { price: 1910.40, label: '1,910.40 Volume Bank (Upper)', color: '#9333ea', width: 2.2, dash: [6, 4] },
+        { price: 1800.00, label: '1,800.00 Call Wall (244)', color: '#dc2626', width: 3.2, dash: [] },
+        { price: 1700.00, label: '1,700.00 Call Wall (219)', color: '#dc2626', width: 2.6, dash: [] },
+        { price: 1670.00, label: '1,670.00 Call Resistance (118)', color: '#dc2626', width: 1.8, dash: [] },
+        { price: 1625.00, label: '1,625.00 Upper Target (+5.6%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+        { price: 1585.00, label: '1,585.00 Lower Target (+3.0%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+        { price: 1556.45, label: '1,556.45 Volume Bank (Lower)', color: '#9333ea', width: 2.4, dash: [6, 4] },
+        { price: 1550.00, label: '1,550.00 Put Wall (320)', color: '#16a34a', width: 3.0, dash: [] },
+        { price: 1500.00, label: '1,500.00 Put Wall (225) / Invalidation', color: '#dc2626', width: 2.2, dash: [2, 4] },
+        { price: 1450.00, label: '1,450.00 Put Wall (200)', color: '#16a34a', width: 2.4, dash: [] }
+      ];
+
+      function drawRoundedRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      }
+
+      const staticCandlesAndLevelsPlugin = {
+        id: 'staticCandlesAndLevelsPlugin',
+        beforeLayout(chart) {
+          const isMobile = window.innerWidth < 640;
+          chart.options.layout.padding.right = isMobile ? 12 : 240;
+        },
+        beforeDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          ctx.save();
+
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.fillStyle = 'rgba(241, 245, 249, 0.45)';
+          ctx.fillRect(xDivider, top, right - xDivider, bottom - top);
+
+          ctx.beginPath();
+          ctx.strokeStyle = '#cbd5e1';
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([4, 4]);
+          ctx.moveTo(xDivider, top);
+          ctx.lineTo(xDivider, bottom);
+          ctx.stroke();
+
+          const yTopTarget = y.getPixelForValue(1625.00);
+          const yBottomTarget = y.getPixelForValue(1585.00);
+          const clampTop = Math.max(top, Math.min(bottom, yTopTarget));
+          const clampBottom = Math.max(top, Math.min(bottom, yBottomTarget));
+          if (clampBottom > clampTop) {
+            ctx.fillStyle = 'rgba(34, 197, 94, 0.18)';
+            ctx.fillRect(left, clampTop, right - left, clampBottom - clampTop);
+          }
+
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          visibleLevels.forEach(lvl => {
+            ctx.beginPath();
+            ctx.strokeStyle = lvl.color;
+            ctx.lineWidth = lvl.width;
+            ctx.setLineDash(lvl.dash);
+            ctx.moveTo(left, lvl.yPos);
+            ctx.lineTo(right, lvl.yPos);
+            ctx.stroke();
+          });
+
+          const slotWidth = x.getPixelForValue(1) - x.getPixelForValue(0);
+          const candleWidth = Math.max(6, Math.min(22, slotWidth * 0.58));
+
+          ohlcData.forEach(d => {
+            const xCenter = x.getPixelForValue(d.xIndex);
+            const yHigh = y.getPixelForValue(d.h);
+            const yLow = y.getPixelForValue(d.l);
+            const yOpen = y.getPixelForValue(d.o);
+            const yClose = y.getPixelForValue(d.c);
+
+            const isBull = d.c >= d.o;
+            const fillColor = isBull ? '#16a34a' : '#dc2626';
+            const borderColor = isBull ? '#15803d' : '#b91c1c';
+
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.5;
+            ctx.moveTo(xCenter, yHigh);
+            ctx.lineTo(xCenter, yLow);
+            ctx.stroke();
+
+            const bodyTop = Math.min(yOpen, yClose);
+            const bodyBottom = Math.max(yOpen, yClose);
+            const bodyHeight = Math.max(2, bodyBottom - bodyTop);
+
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.2;
+            ctx.strokeRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+          });
+
+          ctx.restore();
+        },
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          const isMobile = window.innerWidth < 640;
+          ctx.save();
+
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.font = '600 10px Inter, sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.textAlign = 'left';
+          ctx.fillText('ACTUAL SESSIONS (OCT 29 – NOV 11)', left + 8, top + 14);
+          ctx.fillText('FORECAST WINDOW / RESERVED SPACE', xDivider + 10, top + 14);
+
+          ctx.font = isMobile ? '600 10px Inter, sans-serif' : '600 11px Inter, sans-serif';
+          ctx.textBaseline = 'middle';
+
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          const minLabelGap = isMobile ? 14 : 14;
+          for (let i = 0; i < visibleLevels.length; i++) {
+            if (i === 0) {
+              visibleLevels[i].labelY = Math.max(top + 8, visibleLevels[i].yPos);
+            } else {
+              visibleLevels[i].labelY = Math.max(
+                visibleLevels[i].yPos,
+                visibleLevels[i - 1].labelY + minLabelGap
+              );
+            }
+          }
+
+          visibleLevels.forEach(lvl => {
+            if (!isMobile) {
+              if (Math.abs(lvl.labelY - lvl.yPos) > 2) {
+                ctx.beginPath();
+                ctx.setLineDash([]);
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = lvl.color;
+                ctx.moveTo(right, lvl.yPos);
+                ctx.lineTo(right + 6, lvl.labelY);
+                ctx.stroke();
+              }
+              ctx.textAlign = 'left';
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right + 9, lvl.labelY);
+            } else {
+              ctx.textAlign = 'right';
+              const textWidth = ctx.measureText(lvl.label).width;
+              const pillPaddingX = 5;
+              const pillHeight = 13;
+              const pillX = right - 6 - textWidth - pillPaddingX;
+              const pillY = lvl.labelY - pillHeight / 2;
+
+              drawRoundedRect(ctx, pillX, pillY, textWidth + pillPaddingX * 2, pillHeight, 3);
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
+              ctx.fill();
+
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right - 6, lvl.labelY);
+            }
+          });
+
+          ctx.restore();
+        }
+      };
+
+      const ctx = document.getElementById('plfChart').getContext('2d');
+
+      const plfChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'PLF27 Close',
+            data: closePlaceholders,
+            borderColor: 'transparent',
+            backgroundColor: 'transparent',
+            pointRadius: 0,
+            pointHoverRadius: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          events: [],
+          layout: {
+            padding: {
+              right: window.innerWidth < 640 ? 12 : 240,
+              top: 16,
+              bottom: 10,
+              left: 4
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+          scales: {
+            y: {
+              min: 1430,
+              max: 1720,
+              ticks: {
+                stepSize: 25,
+                callback: (val) => '$' + val.toLocaleString('en-US')
+              },
+              title: {
+                display: true,
+                text: 'Price (USD / troy oz)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            },
+            x: {
+              offset: true,
+              ticks: {
+                maxRotation: 45,
+                minRotation: 0,
+                callback: function(value, index) {
+                  return index < 10 ? labels[index] : '';
+                }
+              },
+              title: {
+                display: true,
+                text: 'Trading Session (Left Half: Historical OHLC | Right Half: Reserved Forecast Space)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            }
+          }
+        },
+        plugins: [staticCandlesAndLevelsPlugin]
+      });
+
+      const btnZoomActive = document.getElementById('btnZoomActive');
+      const btnZoomFull = document.getElementById('btnZoomFull');
+
+      btnZoomActive.addEventListener('click', function() {
+        plfChart.options.scales.y.min = 1430;
+        plfChart.options.scales.y.max = 1720;
+        plfChart.options.scales.y.ticks.stepSize = 25;
+        btnZoomActive.classList.add('zoom-btn-active');
+        btnZoomActive.classList.remove('zoom-btn-inactive');
+        btnZoomFull.classList.remove('zoom-btn-active');
+        btnZoomFull.classList.add('zoom-btn-inactive');
+        plfChart.update();
+      });
+
+      btnZoomFull.addEventListener('click', function() {
+        plfChart.options.scales.y.min = 1430;
+        plfChart.options.scales.y.max = 1970;
+        plfChart.options.scales.y.ticks.stepSize = 50;
+        btnZoomFull.classList.add('zoom-btn-active');
+        btnZoomFull.classList.remove('zoom-btn-inactive');
+        btnZoomActive.classList.remove('zoom-btn-active');
+        btnZoomActive.classList.add('zoom-btn-inactive');
+        plfChart.update();
+      });
+    };
+  </script>
+</body>
+</html>
