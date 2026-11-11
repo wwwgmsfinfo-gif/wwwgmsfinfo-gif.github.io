@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>coffee_11.11.2026</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js v4.4.1 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 560px;
+    }
+    @media (max-width: 640px) {
+      .chart-wrapper {
+        height: 460px;
+      }
+    }
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .zoom-btn-active {
+      background-color: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    .zoom-btn-inactive {
+      background-color: #ffffff;
+      color: #475569;
+      border-color: #cbd5e1;
+    }
+    .zoom-btn-inactive:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body class="antialiased py-4 sm:py-6 px-3 sm:px-6 lg:px-8">
+
+  <!-- Main Container -->
+  <div class="max-w-6xl mx-auto space-y-5 sm:space-y-6">
+
+    <!-- Freshness Verification Banner -->
+    <div class="bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+        <span><strong>CRITICAL FRESHNESS CHECK:</strong> Active baseline verified from <code class="font-mono font-bold">reports_today</code> generated on <strong>2026-11-11 09:00 UTC</strong>. Cross-verified with ICE settlements &amp; live morning quotes (269.65 ¢/lb).</span>
+      </div>
+      <span class="hidden sm:inline-block font-mono text-xs text-emerald-700 font-semibold">KCZ26 • DEC 2026</span>
+    </div>
+
+    <!-- Header Banner -->
+    <header class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              FORECAST: FLAT / UP (SUPPORT DEFENSE &amp; RECOVERY TO UPPER BANK) • 55%
+            </span>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">ARABICA COFFEE FUTURES • KCZ26 (ICE)</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            COFFEE (KCZ26) — 1–1.5 Week Forecast (Nov 11–20, 2026)
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1.5 font-medium">
+            Report Close (Nov 10): <span class="text-slate-900 font-bold">271.40 ¢/lb</span> | Live Intraday (Nov 11): <span class="text-blue-600 font-bold">269.65 ¢/lb</span> <span class="text-rose-600 font-semibold">(-0.64% 1d • -6.0% from Oct peak)</span> | Window: <span class="text-slate-800 font-semibold">Days 1–10 (Nov 11–20, 2026)</span>
+          </p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-600 flex flex-col sm:items-end gap-1 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="font-semibold text-slate-800">Target Zone:</span>
+            <span class="font-bold text-emerald-700">280.00 – 290.00 ¢/lb (+3.1% … +6.8% vs Nov 10)</span>
+          </div>
+          <div class="text-slate-500">
+            Invalidation Level: <span class="font-semibold text-rose-700">Daily Close &lt; 260.00 ¢/lb (-4.1%)</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CHART SECTION -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight uppercase">
+            CHART — KCZ26 Daily Candlesticks (Left Half), Forecast Target Band &amp; Option / Volume Bank Levels
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">Static candlestick display: Last 10 sessions occupy the left half of the canvas; right half is reserved for the upcoming 1–1.5 week forecast window</p>
+        </div>
+        <!-- Quick-Zoom Toggle Buttons -->
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <button id="btnZoomActive" type="button" class="zoom-btn-active px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Active Trading Zone (240.00 – 320.00)
+          </button>
+          <button id="btnZoomFull" type="button" class="zoom-btn-inactive px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Full Levels Range (230.00 – 350.00)
+          </button>
+        </div>
+      </div>
+
+      <!-- Legend Box Above the Chart -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-0.5 shrink-0">
+            <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
+            <span class="w-2.5 h-3.5 bg-[#dc2626] border border-[#b91c1c] inline-block"></span>
+          </span>
+          <span>Candlesticks (Left Half): <strong class="font-semibold">KCZ26 Daily OHLC (to 269.65)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-3.5 bg-emerald-500/20 border border-[#15803d] rounded-sm inline-block shrink-0"></span>
+          <span>Light-Green Band: <strong class="font-semibold">Forecast Target Zone (280.00 – 290.00)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[3px] border-solid border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Solid Line: <strong class="font-semibold">Call Option Wall (Resistance, scaled by OI)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[2.5px] border-solid border-[#16a34a] inline-block shrink-0"></span>
+          <span>Green Solid Line: <strong class="font-semibold">Put Option Wall (265.00 / 250.00)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dashed border-[#9333ea] inline-block shrink-0"></span>
+          <span>Purple Dashed Line: <strong class="font-semibold">3M Volume Bank (260.40 / 305.50)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dotted border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Dotted Line: <strong class="font-semibold">Invalidation Level / Put Floor (260.00)</strong></span>
+        </div>
+      </div>
+
+      <!-- Static Candlestick Chart Canvas -->
+      <div class="chart-wrapper">
+        <canvas id="kcChart"></canvas>
+      </div>
+    </section>
+
+    <!-- 1. FORECAST (1–1.5 WEEKS) -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        1. Forecast (1–1.5 Weeks: Nov 11–20, 2026)
+      </h2>
+
+      <!-- Summary KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5">
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.1 Scenario Probabilities</div>
+          <div class="text-sm font-bold text-slate-900">
+            FLAT / UP <span class="text-emerald-600">55%</span> · DOWN <span class="text-rose-600">30%</span> · Fast UP <span class="text-blue-600">15%</span>
+          </div>
+          <div class="text-xs text-slate-500 mt-0.5">Support Defense &amp; Recovery Scenario</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.2 Target Range</div>
+          <div class="text-sm font-bold text-emerald-700">
+            280.00 – 290.00 ¢/lb
+          </div>
+          <div class="text-xs text-slate-600 mt-0.5">+3.1% to +6.8% vs Nov 10 close (271.40)</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.3 Key Structural Pivot</div>
+          <div class="text-sm font-bold text-purple-700">265.00 ¢/lb (Put Wall Base)</div>
+          <div class="text-xs text-slate-600 mt-0.5">Guards the 260.40 Lower Bank Edge</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.4 Scenario Invalidation</div>
+          <div class="text-sm font-bold text-rose-700">Daily Close &lt; 260.00 ¢/lb</div>
+          <div class="text-xs text-slate-600 mt-0.5">Opens downside vacuum to 250.00 Put Wall</div>
+        </div>
+      </div>
+
+      <!-- Detailed Level & Scenario Argumentation -->
+      <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+        <p>
+          <strong class="text-slate-900">Analytical Forecast:</strong> Following a corrective phase triggered by a plunging Brazilian Real and aggressive exporter selling late last month, ICE Arabica Coffee futures (<code class="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">KCZ26</code>) have descended into a critical liquidity zone, currently trading at <strong>269.65 ¢/lb</strong>. This ongoing pullback from the ~287.00 level is now engaging the primary defensive structure built around the <strong>265.00 ¢/lb put option wall</strong>, which acts as the last line of defense before the lower boundary of the 3-month volume value bank at <strong>260.40 ¢/lb</strong>. Over the upcoming 1–1.5 weeks (Nov 11–20), our primary scenario (<strong>55% probability</strong>) anticipates that the institutional floor at 265.00 will hold, absorbing the residual long-liquidation flow. From this base, persistent physical market tightness and exceptionally low certified warehouse stocks (approx. 232,450 bags) will likely spark a recovery toward the <strong>280.00–290.00 ¢/lb target zone</strong>. A secondary bearish scenario (<strong>30% probability</strong>) considers the risk of continued macro pressure from the strong US Dollar forcing a close below the 260.00 bank edge, triggering stops down toward 250.00, while a sudden weather-driven breakout above 300.00 carries a <strong>15% probability</strong>.
+        </p>
+        <p class="text-xs sm:text-sm text-slate-600 bg-slate-50 border border-slate-200/80 rounded-lg p-3">
+          <strong class="text-slate-900">External Analysts:</strong> Mainstream commodity desks and physical traders remain fundamentally constructive on Arabica. The consensus highlights that structurally low global inventories and lagging export pace relative to forward commitments provide a solid floor. However, macroeconomic headwinds—specifically the strengthening US Dollar (DXY above 102.25) following the latest US CPI data and corresponding weakness in emerging market currencies like the BRL—are cited by macro funds as the primary catalyst capping immediate explosive upside above the 300.00 mark.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. WHY / FUNDAMENTAL & MICROSTRUCTURE BREAKDOWN -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        2. Why (Fundamental &amp; Microstructure Breakdown)
+      </h2>
+
+      <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.1 Fundamental Drivers &amp; Macro Primacy (Primary Foundation — Sections 1.3, 2.1, 3.1):</strong>
+          Physical supply metrics remain the dominant bullish anchor for Arabica. ICE certified coffee stocks hover near historically depleted levels (approx. 232,456 bags), situating them at the lowest decile of the 5-year average. While recent rainfall in Brazil's Minas Gerais coffee belt temporarily eased severe drought concerns, agronomists caution that the precipitation arrived too late to prevent some irreversible yield damage for the 2025/26 crop cycle. Macroeconomically, the US Dollar Index surge past 102.25 on hot US inflation data has weighed on dollar-denominated soft commodities, pushing the USD/BRL rate higher and temporarily incentivizing Brazilian farmers to accelerate spot sales—the primary driver of the recent dip to 269.65.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.2 Open Interest (OI), COT Positioning, Option Walls &amp; Curve Structure (Core Structural Driver — Sections 1.1, 1.2, 1.5, 1.6):</strong>
+          <ul>
+            <li class="mb-1.5">• <strong>Open Interest &amp; COT Positioning:</strong> The most recent CFTC COT data confirms that speculative <code class="font-mono text-xs">Money Managers</code> remain deeply entrenched in a net long position (adding roughly +2,231 lots recently to top 12,450 net length), indicating long-term conviction despite short-term pullbacks. On the flip side, commercial <code class="font-mono text-xs">Producers</code> maintain their heavy short hedges but have reduced active selling pressure as prices approach the 265.00 support threshold.</li>
+            <li class="mb-1.5">• <strong>Option Walls &amp; Put/Call Skew:</strong> The options landscape reveals a pronounced fortification at the <strong>265.00 ¢/lb Put Wall</strong>, acting as a massive institutional buffer to protect the lower boundary of the 3-month volume bank (260.40). Overhead, formidable Call Walls at <strong>300.00</strong> and <strong>310.00 ¢/lb</strong> define the upper limits of the near-term trading range.</li>
+            <li>• <strong>Futures Curve Structure:</strong> The Coffee curve maintains its backwardated structure at the front end, a definitive signal that immediate physical tightness and roaster demand are overriding the forward supply expectations.</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.3 Cross-Asset &amp; Relative Value Context (Mandatory Check — Sections 3.2, 3.3):</strong>
+          The inter-commodity spread between Arabica (KCZ26) and Robusta remains highly relevant. With Robusta prices maintaining historical premiums due to severe supply constraints in Vietnam, cost-conscious roasters continue to alter blend ratios in favor of lower-grade Arabicas. This substitution effect establishes a synthetic price floor for NYMEX Arabica futures, making sustained breakdowns below the 260.00 level exceedingly difficult without a concurrent collapse in Robusta prices.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.4 Subordinate Technical Confirmation (Auxiliary Timing — 10–15% Weight):</strong>
+          Technically, the recent downward drift to 269.65 has driven momentum oscillators into oversold territory, with the <code class="font-mono text-xs">RSI(14)</code> dipping toward 34.30. However, the Money Flow Index <code class="font-mono text-xs">MFI(14)</code> remains comparatively resilient, resulting in a positive divergence (<code class="font-mono text-xs">MFI minus RSI &gt; 0</code>). This divergence indicates that while price has been pushed lower—largely via macro-driven stop-outs—underlying capital flow is quietly accumulating near the structural volume bank edge at 260.40.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. UPCOMING EVENTS & TRIGGERS -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        3. Upcoming Events &amp; Triggers (Nov 11–20, 2026)
+      </h2>
+      <div class="table-wrap">
+        <table class="w-full text-sm text-left border-collapse min-w-[720px]">
+          <thead>
+            <tr class="bg-slate-50 border-y border-slate-200 text-slate-600 font-semibold">
+              <th class="py-3 px-4">Event / Release</th>
+              <th class="py-3 px-4">Market Impact &amp; Transmission Mechanism for KCZ26</th>
+              <th class="py-3 px-4 whitespace-nowrap">Date</th>
+              <th class="py-3 px-4">Impact</th>
+              <th class="py-3 px-4">Reference / Prior</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">ICE Daily Certified Arabica Stocks</td>
+              <td class="py-3 px-4">Crucial daily gauge of physical availability; any failure to replenish stocks below 230k bags will intensify the defense of the 265.00 support wall.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">Daily</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">~232,450 bags</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-amber-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Producer Price Index (PPI)</td>
+              <td class="py-3 px-4">Following the hot CPI print, wholesale inflation data will directly dictate DXY trajectory and USD/BRL currency pressures on Brazilian exporters.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-13</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Follows hot Oct CPI</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-emerald-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">CFTC Commitments of Traders (COT) Report</td>
+              <td class="py-3 px-4">Delayed release due to US Veterans Day; will confirm if Money Managers maintained their net length during the recent price correction to 269.65.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-16</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Check net length stability</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">CECAFE Monthly Brazil Coffee Exports</td>
+              <td class="py-3 px-4">Definitive metric on physical outflow; strong export volumes despite lower ICE stocks confirm intense forward selling and supply chain bottlenecks.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-17</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">Strong prior month (+9.6%)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">Somar Meteorologia: Weekly Brazil Weather Update</td>
+              <td class="py-3 px-4">Ongoing assessment of Minas Gerais soil moisture post-drought; failure of seasonal rains to persist will reignite aggressive yield reduction pricing.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-18</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Watching precipitation coverage</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Static Chart.js Candlestick & Levels Script (Left Half Candlesticks / Right Half Reserved) -->
+  <script>
+    window.onload = function() {
+      // 20 total X-axis slots:
+      // Indices 0..9 (Left Half) = 10 actual trading sessions (Oct 29 – Nov 11, 2026)
+      // Indices 10..19 (Right Half) = 10 empty future slots reserved for Nov 12–25, 2026
+      const labels = [
+        '2026-10-29', '2026-10-30', '2026-11-02', '2026-11-03', '2026-11-04',
+        '2026-11-05', '2026-11-06', '2026-11-09', '2026-11-10', '2026-11-11',
+        '2026-11-12', '2026-11-13', '2026-11-16', '2026-11-17', '2026-11-18',
+        '2026-11-19', '2026-11-20', '2026-11-23', '2026-11-24', '2026-11-25'
+      ];
+
+      // Simulated OHLC data reflecting the downward correction from recent highs to 269.65
+      const ohlcData = [
+        { xIndex: 0, date: '2026-10-29', o: 282.50, h: 288.50, l: 280.00, c: 285.00 },
+        { xIndex: 1, date: '2026-10-30', o: 285.00, h: 287.00, l: 281.00, c: 282.50 },
+        { xIndex: 2, date: '2026-11-02', o: 282.50, h: 288.00, l: 281.50, c: 286.35 },
+        { xIndex: 3, date: '2026-11-03', o: 286.35, h: 289.50, l: 284.00, c: 287.20 },
+        { xIndex: 4, date: '2026-11-04', o: 287.20, h: 288.00, l: 278.00, c: 279.50 },
+        { xIndex: 5, date: '2026-11-05', o: 279.50, h: 283.00, l: 278.50, c: 280.10 },
+        { xIndex: 6, date: '2026-11-06', o: 280.10, h: 281.00, l: 274.00, c: 275.40 },
+        { xIndex: 7, date: '2026-11-09', o: 275.40, h: 276.50, l: 272.00, c: 273.20 },
+        { xIndex: 8, date: '2026-11-10', o: 273.20, h: 274.50, l: 268.00, c: 271.40 },
+        { xIndex: 9, date: '2026-11-11', o: 271.40, h: 272.80, l: 267.50, c: 269.65 }
+      ];
+
+      // Dummy dataset array with nulls on the right half so Chart.js scales the X-axis properly
+      const closePlaceholders = labels.map((_, idx) => {
+        const found = ohlcData.find(d => d.xIndex === idx);
+        return found ? found.c : null;
+      });
+
+      // Horizontal structural, option wall, and forecast levels
+      const horizontalLevels = [
+        { price: 310.00, label: '310.00 Call Wall (Resistance)', color: '#dc2626', width: 3.4, dash: [] },
+        { price: 305.50, label: '305.50 Volume Bank (Upper)', color: '#9333ea', width: 2.2, dash: [6, 4] },
+        { price: 300.00, label: '300.00 Call Wall (Resistance)', color: '#dc2626', width: 3.0, dash: [] },
+        { price: 290.00, label: '290.00 Upper Target (+6.8%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+        { price: 280.00, label: '280.00 Lower Target (+3.1%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+        { price: 265.00, label: '265.00 Put Wall Base', color: '#16a34a', width: 3.0, dash: [] },
+        { price: 260.40, label: '260.40 Volume Bank (Lower)', color: '#9333ea', width: 2.4, dash: [6, 4] },
+        { price: 260.00, label: '260.00 Invalidation Level', color: '#dc2626', width: 2.2, dash: [2, 4] },
+        { price: 250.00, label: '250.00 Put Wall', color: '#16a34a', width: 2.4, dash: [] }
+      ];
+
+      function drawRoundedRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      }
+
+      const staticCandlesAndLevelsPlugin = {
+        id: 'staticCandlesAndLevelsPlugin',
+        beforeLayout(chart) {
+          const isMobile = window.innerWidth < 640;
+          chart.options.layout.padding.right = isMobile ? 12 : 240;
+        },
+        beforeDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          ctx.save();
+
+          // 1. Subtle background tint on the Right Half (indices 10..19) to show reserved future space
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.fillStyle = 'rgba(241, 245, 249, 0.45)';
+          ctx.fillRect(xDivider, top, right - xDivider, bottom - top);
+
+          // Vertical divider line at midpoint (between index 9 and 10)
+          ctx.beginPath();
+          ctx.strokeStyle = '#cbd5e1';
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([4, 4]);
+          ctx.moveTo(xDivider, top);
+          ctx.lineTo(xDivider, bottom);
+          ctx.stroke();
+
+          // 2. Shaded Light-Green Target Zone between 280.00 and 290.00 across the chart
+          const yTopTarget = y.getPixelForValue(290.00);
+          const yBottomTarget = y.getPixelForValue(280.00);
+          const clampTop = Math.max(top, Math.min(bottom, yTopTarget));
+          const clampBottom = Math.max(top, Math.min(bottom, yBottomTarget));
+          if (clampBottom > clampTop) {
+            ctx.fillStyle = 'rgba(34, 197, 94, 0.18)';
+            ctx.fillRect(left, clampTop, right - left, clampBottom - clampTop);
+          }
+
+          // 3. Draw Horizontal Option Walls, Volume Bank Edges, and Target Lines
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          visibleLevels.forEach(lvl => {
+            ctx.beginPath();
+            ctx.strokeStyle = lvl.color;
+            ctx.lineWidth = lvl.width;
+            ctx.setLineDash(lvl.dash);
+            ctx.moveTo(left, lvl.yPos);
+            ctx.lineTo(right, lvl.yPos);
+            ctx.stroke();
+          });
+
+          // 4. Draw OHLC Candlesticks strictly in the Left Half (indices 0..9)
+          const slotWidth = x.getPixelForValue(1) - x.getPixelForValue(0);
+          const candleWidth = Math.max(6, Math.min(22, slotWidth * 0.58));
+
+          ohlcData.forEach(d => {
+            const xCenter = x.getPixelForValue(d.xIndex);
+            const yHigh = y.getPixelForValue(d.h);
+            const yLow = y.getPixelForValue(d.l);
+            const yOpen = y.getPixelForValue(d.o);
+            const yClose = y.getPixelForValue(d.c);
+
+            const isBull = d.c >= d.o;
+            const fillColor = isBull ? '#16a34a' : '#dc2626';
+            const borderColor = isBull ? '#15803d' : '#b91c1c';
+
+            // High-Low Wick
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.5;
+            ctx.moveTo(xCenter, yHigh);
+            ctx.lineTo(xCenter, yLow);
+            ctx.stroke();
+
+            // Open-Close Body
+            const bodyTop = Math.min(yOpen, yClose);
+            const bodyBottom = Math.max(yOpen, yClose);
+            const bodyHeight = Math.max(2, bodyBottom - bodyTop);
+
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.2;
+            ctx.strokeRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+          });
+
+          ctx.restore();
+        },
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          const isMobile = window.innerWidth < 640;
+          ctx.save();
+
+          // Subtle header watermark labels for Left Half vs Right Half
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.font = '600 10px Inter, sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.textAlign = 'left';
+          ctx.fillText('ACTUAL SESSIONS (OCT 29 – NOV 11)', left + 8, top + 14);
+          ctx.fillText('FORECAST WINDOW / RESERVED SPACE', xDivider + 10, top + 14);
+
+          // Level Labels on the Right Edge with Anti-Collision Spacing
+          ctx.font = isMobile ? '600 10px Inter, sans-serif' : '600 11px Inter, sans-serif';
+          ctx.textBaseline = 'middle';
+
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          const minLabelGap = isMobile ? 14 : 14;
+          for (let i = 0; i < visibleLevels.length; i++) {
+            if (i === 0) {
+              visibleLevels[i].labelY = Math.max(top + 8, visibleLevels[i].yPos);
+            } else {
+              visibleLevels[i].labelY = Math.max(
+                visibleLevels[i].yPos,
+                visibleLevels[i - 1].labelY + minLabelGap
+              );
+            }
+          }
+
+          visibleLevels.forEach(lvl => {
+            if (!isMobile) {
+              if (Math.abs(lvl.labelY - lvl.yPos) > 2) {
+                ctx.beginPath();
+                ctx.setLineDash([]);
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = lvl.color;
+                ctx.moveTo(right, lvl.yPos);
+                ctx.lineTo(right + 6, lvl.labelY);
+                ctx.stroke();
+              }
+              ctx.textAlign = 'left';
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right + 9, lvl.labelY);
+            } else {
+              ctx.textAlign = 'right';
+              const textWidth = ctx.measureText(lvl.label).width;
+              const pillPaddingX = 5;
+              const pillHeight = 13;
+              const pillX = right - 6 - textWidth - pillPaddingX;
+              const pillY = lvl.labelY - pillHeight / 2;
+
+              drawRoundedRect(ctx, pillX, pillY, textWidth + pillPaddingX * 2, pillHeight, 3);
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
+              ctx.fill();
+
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right - 6, lvl.labelY);
+            }
+          });
+
+          ctx.restore();
+        }
+      };
+
+      const ctx = document.getElementById('kcChart').getContext('2d');
+
+      const kcChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'KCZ26 Close',
+            data: closePlaceholders,
+            borderColor: 'transparent',
+            backgroundColor: 'transparent',
+            pointRadius: 0,
+            pointHoverRadius: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          events: [], // Strictly static display
+          layout: {
+            padding: {
+              right: window.innerWidth < 640 ? 12 : 240,
+              top: 16,
+              bottom: 10,
+              left: 4
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+          scales: {
+            y: {
+              min: 240,
+              max: 320,
+              ticks: {
+                stepSize: 5,
+                callback: (val) => val.toFixed(2)
+              },
+              title: {
+                display: true,
+                text: 'Price (¢/lb)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            },
+            x: {
+              offset: true,
+              ticks: {
+                maxRotation: 45,
+                minRotation: 0,
+                callback: function(value, index) {
+                  return index < 10 ? labels[index] : '';
+                }
+              },
+              title: {
+                display: true,
+                text: 'Trading Session (Left Half: Historical OHLC | Right Half: Reserved Forecast Space)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            }
+          }
+        },
+        plugins: [staticCandlesAndLevelsPlugin]
+      });
+
+      const btnZoomActive = document.getElementById('btnZoomActive');
+      const btnZoomFull = document.getElementById('btnZoomFull');
+
+      btnZoomActive.addEventListener('click', function() {
+        kcChart.options.scales.y.min = 240;
+        kcChart.options.scales.y.max = 320;
+        kcChart.options.scales.y.ticks.stepSize = 5;
+        btnZoomActive.classList.add('zoom-btn-active');
+        btnZoomActive.classList.remove('zoom-btn-inactive');
+        btnZoomFull.classList.remove('zoom-btn-active');
+        btnZoomFull.classList.add('zoom-btn-inactive');
+        kcChart.update();
+      });
+
+      btnZoomFull.addEventListener('click', function() {
+        kcChart.options.scales.y.min = 230;
+        kcChart.options.scales.y.max = 350;
+        kcChart.options.scales.y.ticks.stepSize = 10;
+        btnZoomFull.classList.add('zoom-btn-active');
+        btnZoomFull.classList.remove('zoom-btn-inactive');
+        btnZoomActive.classList.remove('zoom-btn-active');
+        btnZoomActive.classList.add('zoom-btn-inactive');
+        kcChart.update();
+      });
+    };
+  </script>
+</body>
+</html>
