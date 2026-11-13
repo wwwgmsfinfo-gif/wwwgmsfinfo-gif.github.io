@@ -112,6 +112,7 @@
 
       <!-- Legend Box Above the Chart -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+        <div class="flex items-center gap-2" data-post-legend><span class="inline-flex items-center gap-0.5 shrink-0"><span style="width:10px;height:14px;display:inline-block;background:#2563eb;border:1px solid #1d4ed8"></span><span style="width:10px;height:14px;display:inline-block;background:#f97316;border:1px solid #ea580c"></span></span><span><strong class="font-semibold">After forecast: actual daily candles (blue up / orange down)</strong></span></div>
         <div class="flex items-center gap-2">
           <span class="inline-flex items-center gap-0.5 shrink-0">
             <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
@@ -300,16 +301,17 @@
 
       // Verified closes from reports_today (Section 1.1) for Oct 29 – Nov 10 + Nov 11 Live (52.770)
       const ohlcData = [
-        { xIndex: 0, date: '2026-10-29', o: 53.666, h: 53.950, l: 52.100, c: 52.380 },
-        { xIndex: 1, date: '2026-10-30', o: 52.380, h: 52.550, l: 49.276, c: 49.276 },
-        { xIndex: 2, date: '2026-11-02', o: 49.276, h: 51.200, l: 49.150, c: 50.888 },
-        { xIndex: 3, date: '2026-11-03', o: 50.888, h: 51.050, l: 49.550, c: 49.753 },
-        { xIndex: 4, date: '2026-11-04', o: 49.753, h: 52.500, l: 49.700, c: 52.282 },
-        { xIndex: 5, date: '2026-11-05', o: 52.282, h: 52.850, l: 51.800, c: 52.376 },
-        { xIndex: 6, date: '2026-11-06', o: 52.376, h: 52.600, l: 51.650, c: 51.942 },
-        { xIndex: 7, date: '2026-11-09', o: 51.942, h: 52.950, l: 51.850, c: 52.693 },
-        { xIndex: 8, date: '2026-11-10', o: 52.693, h: 52.800, l: 50.950, c: 51.225 },
-        { xIndex: 9, date: '2026-11-11', o: 51.225, h: 52.920, l: 51.180, c: 52.770 }
+        { xIndex: 0, date: '2026-10-29', o: 53.67, h: 53.95, l: 52.10, c: 52.38 },
+        { xIndex: 1, date: '2026-10-30', o: 52.38, h: 52.55, l: 49.28, c: 49.28 },
+        { xIndex: 2, date: '2026-11-02', o: 49.28, h: 51.20, l: 49.15, c: 50.89 },
+        { xIndex: 3, date: '2026-11-03', o: 50.89, h: 51.05, l: 49.55, c: 49.75 },
+        { xIndex: 4, date: '2026-11-04', o: 49.75, h: 52.50, l: 49.70, c: 52.28 },
+        { xIndex: 5, date: '2026-11-05', o: 52.28, h: 52.85, l: 51.80, c: 52.38 },
+        { xIndex: 6, date: '2026-11-06', o: 52.38, h: 52.60, l: 51.65, c: 51.94 },
+        { xIndex: 7, date: '2026-11-09', o: 51.94, h: 52.95, l: 51.85, c: 52.69 },
+        { xIndex: 8, date: '2026-11-10', o: 52.69, h: 52.80, l: 50.95, c: 51.23 },
+        { xIndex: 9, date: '2026-11-11', o: 51.52, h: 53.18, l: 51.42, c: 52.00 },
+        { xIndex: 10, date: '2026-11-12', o: 51.64, h: 51.94, l: 49.67, c: 50.06, post: true }
       ];
 
       // Dummy dataset array with nulls on the right half so Chart.js scales the X-axis properly
@@ -407,8 +409,8 @@
             const yClose = y.getPixelForValue(d.c);
 
             const isBull = d.c >= d.o;
-            const fillColor = isBull ? '#16a34a' : '#dc2626';
-            const borderColor = isBull ? '#15803d' : '#b91c1c';
+            const fillColor = d.post ? (isBull ? '#2563eb' : '#f97316') : (isBull ? '#16a34a' : '#dc2626');
+            const borderColor = d.post ? (isBull ? '#1d4ed8' : '#ea580c') : (isBull ? '#15803d' : '#b91c1c');
 
             // High-Low Wick
             ctx.beginPath();
@@ -536,7 +538,7 @@
           },
           scales: {
             y: {
-              min: 44.0,
+              min: 44,
               max: 61.5,
               ticks: {
                 stepSize: 2.0,
@@ -555,7 +557,7 @@
                 maxRotation: 45,
                 minRotation: 0,
                 callback: function(value, index) {
-                  return index < 10 ? labels[index] : '';
+                  return index < 10 ? labels[index] : ((ohlcData.some(d => d.post && d.xIndex === index) && (index - 10) % 2 === 0) ? labels[index] : '');
                 }
               },
               title: {
@@ -574,7 +576,7 @@
       const btnZoomFull = document.getElementById('btnZoomFull');
 
       btnZoomActive.addEventListener('click', function() {
-        sizChart.options.scales.y.min = 44.0;
+        sizChart.options.scales.y.min = 44;
         sizChart.options.scales.y.max = 61.5;
         sizChart.options.scales.y.ticks.stepSize = 2.0;
         btnZoomActive.classList.add('zoom-btn-active');
@@ -585,8 +587,8 @@
       });
 
       btnZoomFull.addEventListener('click', function() {
-        sizChart.options.scales.y.min = 44.0;
-        sizChart.options.scales.y.max = 72.0;
+        sizChart.options.scales.y.min = 44;
+        sizChart.options.scales.y.max = 72;
         sizChart.options.scales.y.ticks.stepSize = 4.0;
         btnZoomFull.classList.add('zoom-btn-active');
         btnZoomFull.classList.remove('zoom-btn-inactive');
