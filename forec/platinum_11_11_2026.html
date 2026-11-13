@@ -112,6 +112,7 @@
 
       <!-- Legend Box Above the Chart -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+        <div class="flex items-center gap-2" data-post-legend><span class="inline-flex items-center gap-0.5 shrink-0"><span style="width:10px;height:14px;display:inline-block;background:#2563eb;border:1px solid #1d4ed8"></span><span style="width:10px;height:14px;display:inline-block;background:#f97316;border:1px solid #ea580c"></span></span><span><strong class="font-semibold">After forecast: actual daily candles (blue up / orange down)</strong></span></div>
         <div class="flex items-center gap-2">
           <span class="inline-flex items-center gap-0.5 shrink-0">
             <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
@@ -312,7 +313,8 @@
         { xIndex: 6, date: '2026-11-06', o: 1551.50, h: 1578.00, l: 1542.00, c: 1570.20 },
         { xIndex: 7, date: '2026-11-09', o: 1570.20, h: 1586.40, l: 1552.00, c: 1561.00 },
         { xIndex: 8, date: '2026-11-10', o: 1561.00, h: 1566.50, l: 1532.00, c: 1538.40 },
-        { xIndex: 9, date: '2026-11-11', o: 1538.40, h: 1576.80, l: 1534.00, c: 1573.70 }
+        { xIndex: 9, date: '2026-11-11', o: 1541.30, h: 1577.80, l: 1534.20, c: 1538.50 },
+        { xIndex: 10, date: '2026-11-12', o: 1535.50, h: 1552.00, l: 1513.90, c: 1520.40, post: true }
       ];
 
       const closePlaceholders = labels.map((_, idx) => {
@@ -405,8 +407,8 @@
             const yClose = y.getPixelForValue(d.c);
 
             const isBull = d.c >= d.o;
-            const fillColor = isBull ? '#16a34a' : '#dc2626';
-            const borderColor = isBull ? '#15803d' : '#b91c1c';
+            const fillColor = d.post ? (isBull ? '#2563eb' : '#f97316') : (isBull ? '#16a34a' : '#dc2626');
+            const borderColor = d.post ? (isBull ? '#1d4ed8' : '#ea580c') : (isBull ? '#15803d' : '#b91c1c');
 
             ctx.beginPath();
             ctx.setLineDash([]);
@@ -549,7 +551,7 @@
                 maxRotation: 45,
                 minRotation: 0,
                 callback: function(value, index) {
-                  return index < 10 ? labels[index] : '';
+                  return index < 10 ? labels[index] : ((ohlcData.some(d => d.post && d.xIndex === index) && (index - 10) % 2 === 0) ? labels[index] : '');
                 }
               },
               title: {
