@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>palladium_13.11.2026</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js v4.4.1 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 560px;
+    }
+    @media (max-width: 640px) {
+      .chart-wrapper {
+        height: 460px;
+      }
+    }
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .zoom-btn-active {
+      background-color: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    .zoom-btn-inactive {
+      background-color: #ffffff;
+      color: #475569;
+      border-color: #cbd5e1;
+    }
+    .zoom-btn-inactive:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body class="antialiased py-4 sm:py-6 px-3 sm:px-6 lg:px-8">
+
+  <!-- Main Container -->
+  <div class="max-w-6xl mx-auto space-y-5 sm:space-y-6">
+
+    <!-- Executive Header Card with Prominent Safe Trading Gateway Bar -->
+    <header class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              FORECAST: UP / SHORT-COVERING REBOUND (0TH-%ILE MM SHORTS &amp; LOWER BANK CONVERGENCE) • 55%
+            </span>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">NYMEX PALLADIUM FUTURES • PAZ26 (CME GROUP)</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            PALLADIUM (PAZ26) — 1–1.5 Week Forecast (Nov 13–24, 2026)
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1.5 font-medium">
+            Last Settled Close (Nov 12): <span class="text-slate-900 font-bold">$991.50/oz</span> <span class="text-rose-600 font-semibold">(-5.2% 1d • -2.5% 5d • -6.2% 21d)</span> | Live Price (Nov 13): <span class="text-blue-600 font-bold">$1,007.00/oz</span> <span class="text-emerald-600 font-semibold">(+1.56%, 29% of target move covered)</span> | Window: <span class="text-slate-800 font-semibold">Days 2–10 (Nov 13–24, 2026)</span>
+          </p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-600 flex flex-col sm:items-end gap-1 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="font-semibold text-slate-800">Target Zone:</span>
+            <span class="font-bold text-emerald-700">$1,025.00 – $1,065.00 (+3.4% … +7.4%)</span>
+          </div>
+          <div class="text-slate-500">
+            Invalidation Level: <span class="font-semibold text-rose-700">Daily Close &lt; $960.00 (-3.2%)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prominent Safe Trading Gateway Bar -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5 text-xs sm:text-sm text-blue-950">
+          <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs shrink-0">P</span>
+          <div>
+            <span class="font-bold">Safe Trading Gateway (Decentralized Execution on PrivateX):</span>
+            <a href="https://privatex.trade" target="_blank" rel="noopener noreferrer" class="font-mono font-semibold text-blue-700 hover:underline break-all ml-1">
+              https://privatex.trade
+            </a>
+          </div>
+        </div>
+        <a href="https://privatex.trade" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold tracking-wide transition shadow-sm shrink-0">
+          Open PrivateX Platform &rarr;
+        </a>
+      </div>
+    </header>
+
+    <!-- CHART SECTION -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight uppercase">
+            CHART — PAZ26 Daily Candlesticks (Left Half), Forecast Target Band &amp; Option / Volume Bank Levels
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">Static candlestick display: Last 10 completed sessions (Oct 30 – Nov 12) occupy the left half; right half is reserved for the Nov 13–24 forecast window</p>
+        </div>
+        <!-- Quick-Zoom Toggle Buttons -->
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <button id="btnZoomActive" type="button" class="zoom-btn-active px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Active Trading Zone ($910 – $1,220)
+          </button>
+          <button id="btnZoomFull" type="button" class="zoom-btn-inactive px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Full Levels Range ($900 – $1,470)
+          </button>
+        </div>
+      </div>
+
+      <!-- 6-Item Legend Box Above the Chart -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-0.5 shrink-0">
+            <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
+            <span class="w-2.5 h-3.5 bg-[#dc2626] border border-[#b91c1c] inline-block"></span>
+          </span>
+          <span>Candlesticks (Left Half): <strong class="font-semibold">PAZ26 Daily OHLC (to $991.50 settle; Live $1,007.00)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-3.5 bg-emerald-500/20 border border-[#15803d] rounded-sm inline-block shrink-0"></span>
+          <span>Light-Green Band: <strong class="font-semibold">Forecast Target Zone ($1,025.00 – $1,065.00)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[3px] border-solid border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Solid Line: <strong class="font-semibold">Call Option Walls ($1,100 [114 OI], $1,200 [113 OI], $1,250 [200 OI])</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[2.5px] border-solid border-[#16a34a] inline-block shrink-0"></span>
+          <span>Green Solid Line: <strong class="font-semibold">Put Option Walls ($1,000 [23 OI], $1,025 [20 OI], $1,150 [15 OI])</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dashed border-[#9333ea] inline-block shrink-0"></span>
+          <span>Purple Dashed Line: <strong class="font-semibold">3M 80% Volume Bank ($1,009.93 Lower / $1,442.50 Upper)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dotted border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Dotted Line: <strong class="font-semibold">Scenario Invalidation ($960.00)</strong></span>
+        </div>
+      </div>
+
+      <!-- Static Candlestick Chart Canvas -->
+      <div class="chart-wrapper">
+        <canvas id="pazChart"></canvas>
+      </div>
+    </section>
+
+    <!-- 1. FORECAST (1–1.5 WEEKS) -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        1. Forecast (1–1.5 Weeks: Nov 13–24, 2026)
+      </h2>
+
+      <!-- Summary KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5">
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.1 Scenario Probabilities</div>
+          <div class="text-sm font-bold text-slate-900">
+            UP <span class="text-emerald-600">55%</span> · FLAT <span class="text-amber-600">25%</span> · DOWN <span class="text-rose-600">20%</span>
+          </div>
+          <div class="text-xs text-slate-500 mt-0.5">Short-Covering Rebound into Value Area</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.2 Target Range</div>
+          <div class="text-sm font-bold text-emerald-700">
+            $1,025.00 – $1,065.00
+          </div>
+          <div class="text-xs text-slate-600 mt-0.5">+3.4% to +7.4% vs $991.50 close (Live $1,007 covers 29%)</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.3 Key Structural Pivot</div>
+          <div class="text-sm font-bold text-purple-700">$1,000.00 – $1,009.93</div>
+          <div class="text-xs text-slate-600 mt-0.5">1.0% Convergence: PAOF27 Put Wall &amp; 3M Lower Bank</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.4 Scenario Invalidation</div>
+          <div class="text-sm font-bold text-rose-700">Daily Close &lt; $960.00</div>
+          <div class="text-xs text-slate-600 mt-0.5">Breaks Nov 2–3 base toward $933.60 window low</div>
+        </div>
+      </div>
+
+      <!-- Detailed Level & Scenario Argumentation -->
+      <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+        <p>
+          <strong class="text-slate-900">Analytical Forecast:</strong> Following a sharp single-day drop of -5.2% on November 12 that settled December 2026 NYMEX Palladium (<code class="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">PAZ26</code>) at <strong>$991.50/oz</strong>—just below the tight <strong>1.0% structural convergence</strong> between the <strong>$1,000.00 Put Option Wall</strong> (23 OI, <code class="font-mono text-xs">PAOF27</code>) and the lower boundary of the 3-month 80%-volume value bank at <strong>$1,009.93/oz</strong>—buyers stepped in aggressively during today's November 13 live session, lifting price <strong>+1.56% to $1,007.00/oz</strong> and already covering 29% of the projected move to the $1,045.00 target midpoint. Over the next 1–1.5 weeks (Days 2–10: Nov 13–24, 2026), our primary scenario (<strong>55% probability</strong>) projects a sustained reclaim of the $1,009.93 lower volume bank edge and a short-covering rebound into the <strong>$1,025.00 – $1,065.00/oz target zone</strong> (+3.4% to +7.4% vs. the Nov 12 settlement), testing the $1,025.00 Put Wall (20 OI), the 20-day SMA (~$1,033.89), and the Nov 5–11 congestion ceiling ($1,044.20–$1,046.10). This bullish mean-reversion thesis is anchored by an extreme CFTC COT positioning imbalance where <code class="font-mono text-xs">Money Managers</code> hold a <strong>0th-percentile net short of -15,363 contracts</strong> (having added 3,220 shorts into the Nov 3 low of $933.60, leaving late bears underwater at $1,007.00) directly against <strong>98th-percentile net longs held by Commercial Producers (+2,482, +49.2% w/w)</strong> and <strong>Swap Dealers (+9,011, +33.0% w/w)</strong>, compounded by <strong>0th-percentile CME registered stocks (191,911 oz</strong>, falling for 53 consecutive observations), acute South African PGM mine contraction (-9.9% YoY in September after -22.5% YoY in August), Nornickel's 20-year output low (2.415–2.465 Moz) alongside US tariff barriers (132.83% anti-dumping and 109.1% countervailing duties), and positive money-flow divergence (<code class="font-mono text-xs">MFI 42.00 vs. RSI 37.80, spread +4.20</code>). A secondary flat consolidation scenario (<strong>25% probability</strong>) keeps price oscillating within the 3-month typical daily move band of ±1.30% ($978.60 – $1,004.40), while a bearish breakdown scenario (<strong>20% probability</strong>)—triggered only by a daily close below <strong>$960.00/oz</strong> (-3.2%) under renewed US Dollar strength (<code class="font-mono text-xs">DTWEXBGS 121.88</code>) and EV demand headwinds—would retest the $933.60 window low. Execution gateway: <a href="https://privatex.trade" target="_blank" rel="noopener noreferrer" class="text-blue-700 font-semibold underline">https://privatex.trade</a>.
+        </p>
+        <p class="text-xs sm:text-sm text-slate-600 bg-slate-50 border border-slate-200/80 rounded-lg p-3">
+          <strong class="text-slate-900">External Analysts:</strong> Institutional commentary reflects a sharp horizon split between long-term demand substitution and acute near-term physical/positioning squeezes. On the bearish side, <em>Deutsche Bank</em> warns of a structural long-term surplus driven by battery-electric vehicle penetration and a projected ~15% expansion in secondary autocatalyst scrap recycling. Conversely, physical PGM specialists and mining desks (<em>Metals Focus</em>, <em>Heraeus</em>, <em>Crux Investor</em>, <em>Statistics South Africa</em>) emphasize severe primary supply attrition in South Africa (-9.9% YoY September PGM output) and Russia (Nornickel's 20-year output low and US Department of Commerce 132.83% AD / 109.1% CVD tariff rulings), noting that sub-$1,000 pricing cuts deep into the primary cost curve and repeatedly ignites violent short-covering rallies whenever speculative net shorts reach multi-year extremes.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. WHY / FUNDAMENTAL & MICROSTRUCTURE BREAKDOWN -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        2. Why (Fundamental &amp; Microstructure Breakdown)
+      </h2>
+
+      <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.1 Fundamental Drivers &amp; Macro Primacy (Primary Foundation — Sections 1.3, 2.1, 3.1):</strong>
+          Verified CME Group warehouse depository data (Section 1.3) show total NYMEX palladium inventories (<code class="font-mono text-xs">stocks_total</code>) at <strong>248,920 troy oz (17th percentile of the 1-year range)</strong>. Crucially, deliverable registered inventories (<code class="font-mono text-xs">stocks_registered</code>) have declined for <strong>53 consecutive observations to 191,911 oz — the 0th percentile of the 1-year range</strong> (<code class="font-mono text-xs">pos = 0.00 trend</code>), while eligible stocks sit at <strong>57,009 oz (94th annual percentile)</strong> as metal is moved out of deliverable warrant status. On the primary mine supply front (Section 2.1), <em>Statistics South Africa</em> reported that total mining output contracted -10.7% YoY in September, led by a <strong>-9.9% YoY drop in PGM production</strong> (following a -22.5% YoY plunge in August and a -6% QoQ decline in Q3), while Russia's <em>Nornickel</em> guided 2026 palladium production down to a <strong>20-year low of 2.415–2.465 Moz</strong> amid Nadezhda smelter furnace overhauls. Supply friction is further compounded by operational disruptions at <em>Magna Mining's</em> McCreedy West mine (Nov 12) and final US Department of Commerce determinations imposing a <strong>132.83% anti-dumping duty and 109.1% countervailing duty</strong> on unwrought Russian palladium. Offsetting these physical supply shocks, 41-day automotive demand and recycling news flow leans bearish (<code class="font-mono text-xs">downward drift 1.0</code> on EV share gains and ~15% projected recycling growth), while a 1.5-year high in the Trade-Weighted US Dollar Index (<code class="font-mono text-xs">DTWEXBGS = 121.88</code>), 10-year nominal Treasury yields at <strong>4.98%</strong>, 10-year TIPS real yields (<code class="font-mono text-xs">DFII10</code>) at <strong>2.78%</strong>, and an effective Fed Funds rate of <strong>3.88%</strong> after hot October CPI (+0.4% MoM) cap upside extensions near $1,065–$1,100.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.2 Open Interest (OI), COT Positioning, Option Walls &amp; Curve Structure (Core Structural Driver — Sections 1.1, 1.2, 1.5, 1.6):</strong>
+          <ul>
+            <li class="mb-1.5">• <strong>Open Interest Expansion &amp; Trapped Speculative Shorts:</strong> Total CFTC open interest surged <strong>+22.7% w/w (+63.1% over 4 weeks) to 31,525 contracts</strong> (<code class="font-mono text-xs">pos = 1.00 break</code>, 100th percentile of the 3-month range; ex-spread OI 28,323 with a low <strong>10.2% spread share</strong>; active <code class="font-mono text-xs">PAZ26</code> daily OI at <strong>29,359 contracts</strong>). Because this massive OI expansion accompanied a price push down to the Nov 3 low of $933.60 followed by a recovery to $1,007.00–$1,046.10, late-entering speculative shorts are trapped underwater ahead of the December contract roll.</li>
+            <li class="mb-1.5">• <strong>Extreme CFTC COT Positioning Divergence (Section 1.2 &amp; 1.4):</strong> Speculative <code class="font-mono text-xs">Money Managers</code> expanded their net short position by -26.5% w/w (-91.2% over 4w, adding 3,220 net shorts) to <strong>-15,363 contracts — the 0th percentile of the 1-year range</strong> (<code class="font-mono text-xs">pos = 0.00 break</code>). Taking the exact opposite side, commercial <code class="font-mono text-xs">Producers and Processors</code> boosted net long hedging by +49.2% w/w to <strong>+2,482 contracts (98th annual percentile, <code class="font-mono text-xs">pos = 1.00 break</code>)</strong>, <code class="font-mono text-xs">Swap Dealers</code> increased net longs by +33.0% w/w (+83.0% 4w) to <strong>+9,011 contracts (98th annual percentile, <code class="font-mono text-xs">pos = 1.00 break</code>)</strong>, <code class="font-mono text-xs">Other Large Reportables</code> rose to <strong>+2,794 (96th percentile)</strong>, and <code class="font-mono text-xs">Non-reportables</code> hold <strong>+1,076 (47th percentile)</strong>, driving the <code class="font-mono text-xs">speculative minus hedging</code> spread to <strong>-15,051 (0th annual percentile)</strong>.</li>
+            <li class="mb-1.5">• <strong>Option Walls &amp; 1.0% Structural Convergence (Section 1.5):</strong> Across active option series (<code class="font-mono text-xs">PAOZ26</code> &amp; <code class="font-mono text-xs">PAOF27</code>), the comparable <code class="font-mono text-xs">put/call OI ratio = 0.14</code> (flat, 0.00 change), reflecting heavy upside call skew. Downside support is anchored by a tight <strong>1.0% structural convergence</strong> between the <strong>$1,000.00 Put Wall (23 OI, PAOF27)</strong> and the 3-month lower volume bank at <strong>$1,009.93</strong>, backed by the <strong>$1,025.00 Put Wall (20 OI)</strong>. Overhead resistance is defined by Call Walls at <strong>$1,100.00 (114 OI, PAOF27)</strong>, <strong>$1,150.00 Put/Pivot (15 OI, PAOZ26)</strong>, <strong>$1,200.00 (113 OI, PAOF27)</strong>, and <strong>$1,250.00 (200 OI, PAOZ26)</strong>.</li>
+            <li>• <strong>Futures Curve Structure (Section 1.6):</strong> The NYMEX palladium curve trades in normal financing contango from the front-month <code class="font-mono text-xs">PAZ26</code> ($991.50 settle / $1,007.00 live) to March 2027 (<code class="font-mono text-xs">PAH27</code>), rewarding commercial long-hedgers rolling exposure forward while pressuring crowded speculative shorts ahead of late-November first notice.</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.3 Cross-Asset &amp; Relative Value Context (Mandatory Check — Sections 3.2, 3.3):</strong>
+          Over the past 21 trading sessions, Palladium (-6.2%) lagged the Nasdaq-100 risk benchmark (<code class="font-mono text-xs">28,384</code>, -2.6% 21d, +4.8% 5d), resulting in a -3.6 percentage-point relative underperformance gap. Across the precious and PGM complex (Section 3.3), Palladium's 21-day decline (-6.2%) also trailed COMEX Gold (<strong>$3,885.30/oz</strong>, -4.3% 21d, -4.7% 5d; managed money net long 104,297; Gold-Palladium spread at <strong>+$2,893.80/oz</strong>) and sister metal NYMEX Platinum (<strong>$1,520.40/oz</strong>, -3.6% 21d). At its $991.50 settlement, Palladium trades at a steep <strong>-$528.90/oz (-34.8%) discount to Platinum</strong>, an extreme relative-value spread that incentivizes industrial tri-metal autocatalyst rebalancing and supports mean-reversion buying below $1,000/oz.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.4 Subordinate Technical Confirmation (Auxiliary Timing — 10–15% Weight):</strong>
+          Evaluated across the 180-day (123-session) technical window (Section 1.1), <code class="font-mono text-xs">RSI(14) = 37.80</code> (-7.50 1d) sits near oversold territory while price trades <strong>-4.10% below its 20-day SMA (~$1,033.89)</strong> and <strong>-14.70% below its 50-day SMA (~$1,162.37)</strong>, with 14-day ATR elevated at <strong>4.53% (82nd percentile)</strong> and a 3-month typical daily move of <strong>1.30%</strong>. Crucially, the volume-weighted Money Flow Index (<code class="font-mono text-xs">MFI(14) = 42.00</code>, up +13.70 over 5 days) leads RSI by a positive <strong><code class="font-mono text-xs">MFI minus RSI = +4.20</code> divergence</strong>—confirming that institutional capital is accumulating dips below $1,000 ahead of the price rebound.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. UPCOMING EVENTS & TRIGGERS -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        3. Upcoming Events &amp; Triggers (Nov 13–24, 2026)
+      </h2>
+      <div class="table-wrap">
+        <table class="w-full text-sm text-left border-collapse min-w-[720px]">
+          <thead>
+            <tr class="bg-slate-50 border-y border-slate-200 text-slate-600 font-semibold">
+              <th class="py-3 px-4">Event / Release</th>
+              <th class="py-3 px-4">Market Impact &amp; Transmission Mechanism for PAZ26</th>
+              <th class="py-3 px-4 whitespace-nowrap">Date</th>
+              <th class="py-3 px-4">Impact</th>
+              <th class="py-3 px-4">Reference / Prior</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr class="hover:bg-slate-50/80 bg-rose-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Producer Price Index (PPI) &amp; Retail Sales (October)</td>
+              <td class="py-3 px-4">Dictates US Dollar Index (DTWEXBGS 121.88) and Treasury yield trajectory after hot Oct CPI (+0.4% MoM); an in-line or cooler print accelerates PAZ26 short-covering above $1,025.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-13</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Prior CPI: 337.48 (+0.4% MoM)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-emerald-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">CFTC Commitments of Traders (COT) Report</td>
+              <td class="py-3 px-4">Tracks whether Money Managers (-15,363 net short, 0th annual percentile) began covering shorts as price rebounded above the $1,000–$1,009.93 convergence zone.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-16</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Prior MM Net: -15,363 (0%ile)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">US Industrial Production &amp; Capacity Utilization (October)</td>
+              <td class="py-3 px-4">Measures US manufacturing and automotive assembly output, directly impacting North American gasoline/hybrid autocatalyst demand expectations.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-17</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">Prior UNRATE: 4.1%</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">FOMC October Meeting Minutes</td>
+              <td class="py-3 px-4">Clarifies Federal Reserve policy path (DFF 3.88%) and real rate pressure (10Y TIPS 2.78%) on precious and industrial metals carry costs.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-18</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Prior DFF: 3.88%</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">CFTC Weekly COT Release &amp; NYMEX PAOZ26 Option Expiration Positioning</td>
+              <td class="py-3 px-4">Monitors Commercial Producer (+2,482, 98%ile) and Swap Dealer (+9,011, 98%ile) accumulation ahead of December option expiry and contract roll.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-20</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Total OI: 31,525 (+22.7% 1w)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-amber-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">NYMEX December Palladium (PAZ26) First Notice Window &amp; Roll Liquidity</td>
+              <td class="py-3 px-4">Forces remaining speculative shorts in Dec '26 futures to cover or roll into March '27 against depleted 0th-percentile CME registered stocks (191,911 oz).</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-24</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Registered Stocks: 191,911 oz (0%ile)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Static Chart.js Candlestick & Levels Script (Left Half Candlesticks / Right Half Reserved) -->
+  <script>
+    window.onload = function() {
+      // 20 total X-axis slots:
+      // Indices 0..9 (Left Half) = 10 completed sessions (2026-10-30 to 2026-11-12)
+      // Indices 10..19 (Right Half) = 10 reserved forecast slots (2026-11-13 to 2026-11-26)
+      const labels = [
+        '2026-10-30', '2026-11-02', '2026-11-03', '2026-11-04', '2026-11-05',
+        '2026-11-06', '2026-11-09', '2026-11-10', '2026-11-11', '2026-11-12',
+        '2026-11-13', '2026-11-16', '2026-11-17', '2026-11-18', '2026-11-19',
+        '2026-11-20', '2026-11-23', '2026-11-24', '2026-11-25', '2026-11-26'
+      ];
+
+      // Verified PAZ26 Daily OHLC Series (Oct 30 – Nov 12, 2026)
+      const ohlcData = [
+        { xIndex: 0, date: '2026-10-30', o: 1004.50, h: 1011.20, l: 982.40, c: 987.70 },
+        { xIndex: 1, date: '2026-11-02', o: 987.70, h: 993.50, l: 963.10, c: 968.50 },
+        { xIndex: 2, date: '2026-11-03', o: 968.50, h: 972.00, l: 933.60, c: 933.60 },
+        { xIndex: 3, date: '2026-11-04', o: 935.00, h: 1008.40, l: 934.20, c: 1003.00 },
+        { xIndex: 4, date: '2026-11-05', o: 1003.00, h: 1053.50, l: 998.50, c: 1044.20 },
+        { xIndex: 5, date: '2026-11-06', o: 1044.20, h: 1048.00, l: 1011.50, c: 1017.10 },
+        { xIndex: 6, date: '2026-11-09', o: 1017.10, h: 1028.00, l: 1012.00, c: 1021.50 },
+        { xIndex: 7, date: '2026-11-10', o: 1021.50, h: 1031.00, l: 1014.50, c: 1020.80 },
+        { xIndex: 8, date: '2026-11-11', o: 1020.80, h: 1052.00, l: 1019.00, c: 1046.10 },
+        { xIndex: 9, date: '2026-11-12', o: 1046.10, h: 1047.50, l: 988.20, c: 991.50 }
+      ];
+
+      // Live Nov 13 intraday price marker on slot 10
+      const livePrice = 1007.00;
+
+      const closePlaceholders = labels.map((_, idx) => {
+        const found = ohlcData.find(d => d.xIndex === idx);
+        return found ? found.c : null;
+      });
+
+      // Horizontal structural, option wall, volume bank, and forecast levels
+      const horizontalLevels = [
+        { price: 1442.50, label: '$1,442.50 3M Volume Bank (Upper)', color: '#9333ea', width: 2.2, dash: [6, 4] },
+        { price: 1250.00, label: '$1,250.00 Call Wall (200 OI, PAOZ26)', color: '#dc2626', width: 3.2, dash: [] },
+        { price: 1200.00, label: '$1,200.00 Call Wall (113 OI, PAOF27)', color: '#dc2626', width: 2.5, dash: [] },
+        { price: 1150.00, label: '$1,150.00 Put Wall (15 OI, PAOZ26)', color: '#16a34a', width: 1.8, dash: [] },
+        { price: 1100.00, label: '$1,100.00 Call Wall (114 OI, PAOF27)', color: '#dc2626', width: 2.6, dash: [] },
+        { price: 1065.00, label: '$1,065.00 Upper Target (+7.4%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+        { price: 1025.00, label: '$1,025.00 Lower Target / Put Wall (20 OI)', color: '#15803d', width: 2.2, dash: [] },
+        { price: 1009.93, label: '$1,009.93 3M Volume Bank (Lower)', color: '#9333ea', width: 2.4, dash: [6, 4] },
+        { price: 1000.00, label: '$1,000.00 Put Wall (23 OI, PAOF27)', color: '#16a34a', width: 2.2, dash: [] },
+        { price: 960.00, label: '$960.00 Invalidation Level (-3.2%)', color: '#dc2626', width: 2.2, dash: [2, 4] },
+        { price: 933.60, label: '$933.60 3M Window Low (Nov 3)', color: '#64748b', width: 1.6, dash: [3, 3] }
+      ];
+
+      function drawRoundedRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      }
+
+      const staticCandlesAndLevelsPlugin = {
+        id: 'staticCandlesAndLevelsPlugin',
+        beforeLayout(chart) {
+          const isMobile = window.innerWidth < 640;
+          chart.options.layout.padding.right = isMobile ? 12 : 250;
+        },
+        beforeDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          ctx.save();
+
+          // 1. Subtle background tint on the Right Half (indices 10..19) for reserved forecast window
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.fillStyle = 'rgba(241, 245, 249, 0.45)';
+          ctx.fillRect(xDivider, top, right - xDivider, bottom - top);
+
+          // Vertical dashed divider between index 9 and 10
+          ctx.beginPath();
+          ctx.strokeStyle = '#cbd5e1';
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([4, 4]);
+          ctx.moveTo(xDivider, top);
+          ctx.lineTo(xDivider, bottom);
+          ctx.stroke();
+
+          // 2. Shaded Light-Green Forecast Target Zone ($1,025.00 – $1,065.00)
+          const yTopTarget = y.getPixelForValue(1065.00);
+          const yBottomTarget = y.getPixelForValue(1025.00);
+          const clampTop = Math.max(top, Math.min(bottom, yTopTarget));
+          const clampBottom = Math.max(top, Math.min(bottom, yBottomTarget));
+          if (clampBottom > clampTop) {
+            ctx.fillStyle = 'rgba(34, 197, 94, 0.18)';
+            ctx.fillRect(left, clampTop, right - left, clampBottom - clampTop);
+          }
+
+          // 3. Draw Horizontal Option Walls, Volume Bank Boundaries, and Target/Invalidation Lines
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          visibleLevels.forEach(lvl => {
+            ctx.beginPath();
+            ctx.strokeStyle = lvl.color;
+            ctx.lineWidth = lvl.width;
+            ctx.setLineDash(lvl.dash);
+            ctx.moveTo(left, lvl.yPos);
+            ctx.lineTo(right, lvl.yPos);
+            ctx.stroke();
+          });
+
+          // 4. Draw OHLC Candlesticks strictly in the Left Half (indices 0..9)
+          const slotWidth = x.getPixelForValue(1) - x.getPixelForValue(0);
+          const candleWidth = Math.max(6, Math.min(22, slotWidth * 0.58));
+
+          ohlcData.forEach(d => {
+            const xCenter = x.getPixelForValue(d.xIndex);
+            const yHigh = y.getPixelForValue(d.h);
+            const yLow = y.getPixelForValue(d.l);
+            const yOpen = y.getPixelForValue(d.o);
+            const yClose = y.getPixelForValue(d.c);
+
+            const isBull = d.c >= d.o;
+            const fillColor = isBull ? '#16a34a' : '#dc2626';
+            const borderColor = isBull ? '#15803d' : '#b91c1c';
+
+            // High-Low Wick
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.5;
+            ctx.moveTo(xCenter, yHigh);
+            ctx.lineTo(xCenter, yLow);
+            ctx.stroke();
+
+            // Open-Close Body
+            const bodyTop = Math.min(yOpen, yClose);
+            const bodyBottom = Math.max(yOpen, yClose);
+            const bodyHeight = Math.max(2, bodyBottom - bodyTop);
+
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.2;
+            ctx.strokeRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+          });
+
+          // 5. Draw Live Nov 13 Intraday Reference Marker ($1,007.00, +1.56%) at Index 10
+          const yLive = y.getPixelForValue(livePrice);
+          const xLive = x.getPixelForValue(10);
+          if (yLive >= top && yLive <= bottom) {
+            ctx.beginPath();
+            ctx.setLineDash([2, 2]);
+            ctx.strokeStyle = '#2563eb';
+            ctx.lineWidth = 1.5;
+            ctx.moveTo(xDivider, yLive);
+            ctx.lineTo(xLive + 24, yLive);
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.arc(xLive, yLive, 4.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#2563eb';
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#ffffff';
+            ctx.stroke();
+
+            const badgeText = 'Live Nov 13: $1,007.00 (+1.56%)';
+            ctx.font = '600 10px Inter, sans-serif';
+            const textW = ctx.measureText(badgeText).width;
+            const boxX = xLive + 8;
+            const boxY = yLive - 9;
+            drawRoundedRect(ctx, boxX, boxY, textW + 10, 18, 4);
+            ctx.fillStyle = 'rgba(37, 99, 235, 0.92)';
+            ctx.fill();
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(badgeText, boxX + 5, yLive);
+          }
+
+          ctx.restore();
+        },
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          const isMobile = window.innerWidth < 640;
+          ctx.save();
+
+          // Section watermark headers
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.font = '600 10px Inter, sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.textAlign = 'left';
+          ctx.fillText('ACTUAL SESSIONS (OCT 30 – NOV 12)', left + 8, top + 14);
+          ctx.fillText('FORECAST WINDOW / RESERVED SPACE', xDivider + 10, top + 14);
+
+          // Right-Margin Level Labels with Anti-Collision Spacing
+          ctx.font = isMobile ? '600 10px Inter, sans-serif' : '600 11px Inter, sans-serif';
+          ctx.textBaseline = 'middle';
+
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          const minLabelGap = isMobile ? 14 : 15;
+          for (let i = 0; i < visibleLevels.length; i++) {
+            if (i === 0) {
+              visibleLevels[i].labelY = Math.max(top + 8, visibleLevels[i].yPos);
+            } else {
+              visibleLevels[i].labelY = Math.max(
+                visibleLevels[i].yPos,
+                visibleLevels[i - 1].labelY + minLabelGap
+              );
+            }
+          }
+
+          visibleLevels.forEach(lvl => {
+            if (!isMobile) {
+              if (Math.abs(lvl.labelY - lvl.yPos) > 2) {
+                ctx.beginPath();
+                ctx.setLineDash([]);
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = lvl.color;
+                ctx.moveTo(right, lvl.yPos);
+                ctx.lineTo(right + 6, lvl.labelY);
+                ctx.stroke();
+              }
+              ctx.textAlign = 'left';
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right + 9, lvl.labelY);
+            } else {
+              ctx.textAlign = 'right';
+              const textWidth = ctx.measureText(lvl.label).width;
+              const pillPaddingX = 5;
+              const pillHeight = 13;
+              const pillX = right - 6 - textWidth - pillPaddingX;
+              const pillY = lvl.labelY - pillHeight / 2;
+
+              drawRoundedRect(ctx, pillX, pillY, textWidth + pillPaddingX * 2, pillHeight, 3);
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
+              ctx.fill();
+
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right - 6, lvl.labelY);
+            }
+          });
+
+          ctx.restore();
+        }
+      };
+
+      const ctx = document.getElementById('pazChart').getContext('2d');
+
+      const pazChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'PAZ26 Close',
+            data: closePlaceholders,
+            borderColor: 'transparent',
+            backgroundColor: 'transparent',
+            pointRadius: 0,
+            pointHoverRadius: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          events: [],
+          layout: {
+            padding: {
+              right: window.innerWidth < 640 ? 12 : 250,
+              top: 16,
+              bottom: 10,
+              left: 4
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+          scales: {
+            y: {
+              min: 910,
+              max: 1220,
+              ticks: {
+                stepSize: 25,
+                callback: (val) => '$' + val.toLocaleString('en-US')
+              },
+              title: {
+                display: true,
+                text: 'Price (USD / troy oz)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            },
+            x: {
+              offset: true,
+              ticks: {
+                maxRotation: 45,
+                minRotation: 0,
+                callback: function(value, index) {
+                  return index < 10 ? labels[index] : '';
+                }
+              },
+              title: {
+                display: true,
+                text: 'Trading Session (Left Half: Historical OHLC | Right Half: Reserved Forecast Space)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            }
+          }
+        },
+        plugins: [staticCandlesAndLevelsPlugin]
+      });
+
+      const btnZoomActive = document.getElementById('btnZoomActive');
+      const btnZoomFull = document.getElementById('btnZoomFull');
+
+      btnZoomActive.addEventListener('click', function() {
+        pazChart.options.scales.y.min = 910;
+        pazChart.options.scales.y.max = 1220;
+        pazChart.options.scales.y.ticks.stepSize = 25;
+        btnZoomActive.classList.add('zoom-btn-active');
+        btnZoomActive.classList.remove('zoom-btn-inactive');
+        btnZoomFull.classList.remove('zoom-btn-active');
+        btnZoomFull.classList.add('zoom-btn-inactive');
+        pazChart.update();
+      });
+
+      btnZoomFull.addEventListener('click', function() {
+        pazChart.options.scales.y.min = 900;
+        pazChart.options.scales.y.max = 1470;
+        pazChart.options.scales.y.ticks.stepSize = 50;
+        btnZoomFull.classList.add('zoom-btn-active');
+        btnZoomFull.classList.remove('zoom-btn-inactive');
+        btnZoomActive.classList.remove('zoom-btn-active');
+        btnZoomActive.classList.add('zoom-btn-inactive');
+        pazChart.update();
+      });
+    };
+  </script>
+</body>
+</html>
