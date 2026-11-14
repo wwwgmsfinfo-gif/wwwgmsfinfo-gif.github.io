@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>natural_gas_14.11.2026</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js v4.4.1 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 560px;
+    }
+    @media (max-width: 640px) {
+      .chart-wrapper {
+        height: 460px;
+      }
+    }
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .zoom-btn-active {
+      background-color: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    .zoom-btn-inactive {
+      background-color: #ffffff;
+      color: #475569;
+      border-color: #cbd5e1;
+    }
+    .zoom-btn-inactive:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body class="antialiased py-4 sm:py-6 px-3 sm:px-6 lg:px-8">
+
+  <!-- Main Container -->
+  <div class="max-w-6xl mx-auto space-y-5 sm:space-y-6">
+
+    <!-- Executive Header Card with Prominent Safe Trading Gateway Bar -->
+    <header class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              FORECAST: UP / SHORT SQUEEZE CONTINUATION (3.23 BANK RECLAIM TOWARD 3.50 CALL WALL) • 55%
+            </span>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">HENRY HUB NATURAL GAS • NGZ26 (NYMEX)</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            NATURAL GAS (NGZ26) — 1–1.5 Week Forecast (Nov 16–26, 2026)
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1.5 font-medium">
+            Last Settled Close (Nov 13): <span class="text-slate-900 font-bold">$3.230 / MMBtu</span> <span class="text-rose-600 font-semibold">(-3.3% 1d</span> • <span class="text-emerald-600 font-semibold">+7.7% 5d • +11.6% 10d • +22.3% 21d)</span> | Electronic Reference: <span class="text-blue-600 font-bold">$3.245 / MMBtu</span> <span class="text-emerald-600 font-semibold">(+0.5% vs Settle, 8.8% of target move covered)</span> | Window: <span class="text-slate-800 font-semibold">Days 2–10 (Nov 16–26, 2026)</span>
+          </p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-600 flex flex-col sm:items-end gap-1 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="font-semibold text-slate-800">Target Zone:</span>
+            <span class="font-bold text-emerald-700">$3.400 – $3.550 (+5.3% … +9.9%)</span>
+          </div>
+          <div class="text-slate-500">
+            Invalidation Level: <span class="font-semibold text-rose-700">Daily Close &lt; $2.980 (-7.7%)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prominent Safe Trading Gateway Bar -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5 text-xs sm:text-sm text-blue-950">
+          <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs shrink-0">P</span>
+          <div>
+            <span class="font-bold">Safe Trading Gateway (Natural Gas &amp; Commodities on PrivateX):</span>
+            <a href="https://privatex.trade" target="_blank" rel="noopener noreferrer" class="font-mono font-semibold text-blue-700 hover:underline break-all ml-1">
+              https://privatex.trade
+            </a>
+          </div>
+        </div>
+        <a href="https://privatex.trade" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold tracking-wide transition shadow-sm shrink-0">
+          Open Safe Trade on PrivateX &rarr;
+        </a>
+      </div>
+    </header>
+
+    <!-- CHART SECTION -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight uppercase">
+            CHART — NGZ26 Daily Candlesticks (Left Half), Forecast Target Band &amp; Option / Volume Bank Levels
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">Static candlestick display: Last 10 completed sessions (Nov 2 – Nov 13) occupy the left half; right half is reserved for the Nov 16–27 forecast window</p>
+        </div>
+        <!-- Quick-Zoom Toggle Buttons -->
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <button id="btnZoomActive" type="button" class="zoom-btn-active px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Active Trading Zone ($2.65 – $3.70)
+          </button>
+          <button id="btnZoomFull" type="button" class="zoom-btn-inactive px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+            Full Levels Range ($2.50 – $4.15)
+          </button>
+        </div>
+      </div>
+
+      <!-- 6-Item Legend Box Above the Chart -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-0.5 shrink-0">
+            <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
+            <span class="w-2.5 h-3.5 bg-[#dc2626] border border-[#b91c1c] inline-block"></span>
+          </span>
+          <span>Candlesticks (Left Half): <strong class="font-semibold">NGZ26 Daily OHLC (Nov 2 – Nov 13, Settled at $3.230)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-3.5 bg-emerald-500/20 border border-[#15803d] rounded-sm inline-block shrink-0"></span>
+          <span>Light-Green Band: <strong class="font-semibold">Forecast Target Zone ($3.400 – $3.550)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[3px] border-solid border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Solid Line: <strong class="font-semibold">Call Option Walls ($3.50 [855 OI], $3.80 [1,325 OI], $4.00 [987 OI])</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-[2.5px] border-solid border-[#16a34a] inline-block shrink-0"></span>
+          <span>Green Solid Line: <strong class="font-semibold">Put Option Walls ($3.00 [1,152 OI], $2.70 [1,537 OI], $2.60 [885 OI])</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dashed border-[#9333ea] inline-block shrink-0"></span>
+          <span>Purple Dashed Line: <strong class="font-semibold">3M 80% Volume Bank ($2.750 Lower / $3.229 Upper)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-0 border-t-2 border-dotted border-[#dc2626] inline-block shrink-0"></span>
+          <span>Red Dotted Line: <strong class="font-semibold">Bullish Scenario Invalidation ($2.980)</strong></span>
+        </div>
+      </div>
+
+      <!-- Static Candlestick Chart Canvas -->
+      <div class="chart-wrapper">
+        <canvas id="ngzChart"></canvas>
+      </div>
+    </section>
+
+    <!-- 1. FORECAST (1–1.5 WEEKS) -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        1. Forecast (1–1.5 Weeks: Nov 16–26, 2026)
+      </h2>
+
+      <!-- Summary KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5">
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.1 Scenario Probabilities</div>
+          <div class="text-sm font-bold text-slate-900">
+            UP (Squeeze) <span class="text-emerald-600">55%</span> · FLAT <span class="text-amber-600">25%</span> · DOWN <span class="text-rose-600">20%</span>
+          </div>
+          <div class="text-xs text-slate-500 mt-0.5">Record Speculative Short Squeeze &amp; LNG Peak vs High Storage</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.2 Target Range</div>
+          <div class="text-sm font-bold text-emerald-700">
+            $3.400 – $3.550 / MMBtu
+          </div>
+          <div class="text-xs text-slate-600 mt-0.5">+5.3% to +9.9% vs $3.230 Settle | Ref $3.245 covers 8.8% of move</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.3 Key Structural Pivot</div>
+          <div class="text-sm font-bold text-purple-700">$3.229 Upper 3M Volume Bank</div>
+          <div class="text-xs text-slate-600 mt-0.5">Price settled right on the upper 80% volume boundary ($3.230)</div>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+          <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.4 Scenario Invalidation</div>
+          <div class="text-sm font-bold text-rose-700">Daily Close &lt; $2.980</div>
+          <div class="text-xs text-slate-600 mt-0.5">Breaks $3.000 Put Wall (1,152 OI) &amp; 20-SMA (+9.2% cushion)</div>
+        </div>
+      </div>
+
+      <!-- Detailed Level & Scenario Argumentation -->
+      <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+        <p>
+          <strong class="text-slate-900">Analytical Forecast:</strong> Front-month NYMEX Henry Hub Natural Gas (<code class="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">NGZ26</code>) settled at <strong>$3.230/MMBtu</strong> on November 13 (-3.3% 1d after hitting an 8-month window high of <strong>$3.340</strong> on November 12, while maintaining <strong>+7.7% 5d</strong>, <strong>+11.6% 10d</strong>, and <strong>+22.3% 21d</strong> gains; electronic reference trades at <strong>$3.245/MMBtu</strong>, covering 8.8% of the projected move to the lower target). Price is sitting precisely at the upper edge of its 3-month 80% volume bank (<strong>$3.2293</strong>, position <code class="font-mono text-xs">1.00</code>). Over the Days 2–10 window (Nov 16–26, leading into the Nov 24 <code class="font-mono text-xs">ONZ26</code> options expiry and Nov 25 <code class="font-mono text-xs">NGZ26</code> contract expiration), our primary scenario (<strong>55% probability</strong>) projects a continuation of the short squeeze above the $3.230 pivot into the <strong>$3.400–$3.550/MMBtu target zone</strong> (+5.3% to +9.9%), testing the <strong>$3.500 Call Option Wall (855 OI)</strong>. Three structural drivers power this upside: (1) <strong>Historic CFTC COT positioning asymmetry</strong>, with Money Managers trapped at the <strong>0th annual percentile (-224,495 net short</strong>, extended by another 67,647 contracts in a single week) while Swap Dealers (+243,705, 98th percentile), Other Large Reportables (-35,085, +59.1% 1w short-covering, 98th percentile), and Commercial Producers (-551, cutting 12,543 shorts, 77th percentile) absorb the entire other side; (2) <strong>Record US LNG export feedgas flows</strong> averaging <strong>19.3 Bcf/d</strong> and pushing toward <strong>20.4 Bcf/d</strong> (led by Plaquemines and Freeport), alongside Baker Hughes US gas rigs dropping by 4 to <strong>127</strong> (Haynesville down 3 to 53); and (3) <strong>Upwardly revised heating demand</strong>, with 7-day HDD forecasts revised up <strong>+9.5%</strong> to <strong>138 HDDs</strong> and week-ahead gas demand revised up <strong>+8.3%</strong> to <strong>207,022 MMcf</strong> (LSEG projecting total Lower 48 demand including exports reaching 120 Bcf/d). A secondary consolidation scenario (<strong>25% probability</strong>) keeps price range-bound between <strong>$3.150 and $3.350</strong> as high total working storage (<strong>3,862 Bcf</strong>) caps rallies. A bearish invalidation scenario (<strong>20% probability</strong>) is triggered by a daily close below <strong>$2.980</strong> (breaking the <strong>$3.000 Put Wall [1,152 OI]</strong>) or if weekly EIA storage exceeds <strong>3,930 Bcf</strong> on a warm late-November weather flip, unwinding the squeeze toward <strong>$2.750</strong>. Execution routing: <a href="https://privatex.trade" target="_blank" rel="noopener noreferrer" class="text-blue-700 font-semibold underline">https://privatex.trade</a>.
+        </p>
+        <p class="text-xs sm:text-sm text-slate-600 bg-slate-50 border border-slate-200/80 rounded-lg p-3">
+          <strong class="text-slate-900">External Analysts:</strong> Institutional and agency forecasts diverge sharply between medium-term seasonal averages and immediate short-squeeze dynamics. In its November 10 Short-Term Energy Outlook (STEO), the <em>U.S. EIA</em> lowered its winter 2026–2027 (Nov–Mar) Henry Hub spot forecast by 16.3% to <strong>$2.87/MMBtu</strong> and its full-year 2027 average to <strong>$2.88/MMBtu</strong> (down from $3.37/MMBtu in 2026), citing 13% fewer November HDDs than the 10-year norm and rising 2026 dry gas production estimates (112.2–113.0 Bcf/d, rising to 116.1 Bcf/d in 2027). <em>Bank of America</em> projects end-of-injection storage peaking near <strong>3.886 Tcf</strong>. Conversely, trading desks (<em>Premier Energy Management</em>, <em>Barchart</em>, <em>AGA Market Indicators</em>) highlight that record gross speculative shorts (636,576 contracts), record 19.3–20.4 Bcf/d LNG feedgas, and a +10 Bcf/d 2-week demand surge leave the December contract primed for upside squeeze extensions above $3.30–$3.50 if pre-Thanksgiving cold holds.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. WHY / FUNDAMENTAL & MICROSTRUCTURE BREAKDOWN -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        2. Why (Fundamental &amp; Microstructure Breakdown)
+      </h2>
+
+      <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.1 Fundamental Drivers &amp; Macro Primacy (Primary Foundation — Storage, LNG Feedgas, Output &amp; Weather Revisions):</strong>
+          <ul class="space-y-1.5">
+            <li>• <strong>EIA Underground Storage (Week Ended Nov 6, Released Nov 13):</strong> Working gas rose by <strong>+61 Bcf</strong> (below the 64–67 Bcf consensus) to <strong>3,862 Bcf</strong> (<strong>91st annual percentile</strong>, +1.6% 1w, +8.3% 4w), sitting <strong>+75 Bcf (+2.0%) above the 5-year average (3,787 Bcf)</strong> but <strong>-92 Bcf (-2.3%) below last year (3,954 Bcf)</strong>. Regional breakdown: Midwest at <strong>1,129 Bcf</strong> (98th percentile), East at <strong>938 Bcf</strong> (98th percentile), South Central Non-Salt at <strong>912 Bcf</strong> (87th percentile), and fast-cycle South Central Salt Caverns at <strong>296 Bcf</strong> (53rd percentile, +30.4% 4w, salt/nonsalt ratio 0.325, still ~11.6% below seasonal norm).</li>
+            <li>• <strong>Weather &amp; Heating Demand Revisions:</strong> Across the last 3 daily model runs (Nov 11–13), 7-day cumulative HDD forecasts were revised up <strong>+9.5%</strong> from <strong>126 to 138 HDDs</strong> (72nd annual percentile; peak daily 20–22 HDDs across Nov 14–18 vs 0–1 HDDs a year ago), lifting 7-day forecasted gas demand <strong>+8.3%</strong> from <strong>191,144 MMcf to 207,022 MMcf</strong> (70th percentile). Crucially, the 14-day HDD model has exhibited a systematic bias of under-predicting actual cold by <strong>1.0 HDD/day on average</strong>, meaning realized heating demand has repeatedly surprised to the upside (e.g., Nov 5–7 actual demand beat day-ahead calls by +2,504 to +4,458 MMcf/d).</li>
+            <li>• <strong>LNG Feedgas, Production, Rig Count &amp; Global Benchmarks:</strong> US LNG export feedgas hit an all-time average high of <strong>19.3 Bcf/d</strong> (heading toward <strong>20.4 Bcf/d</strong> on Plaquemines over-performance and Freeport recovery, though Golden Pass Pipeline carries a 2.6 Bcf/d maintenance notice ceiling). Lower 48 dry gas output eased in early November from record highs (EIA STEO estimates 103.07–112.2 Bcf/d average), while Baker Hughes reported on Nov 13 that US natural gas rigs fell by <strong>4 to 127</strong> (Haynesville down 3 to 53). Canadian gas imports rose week-over-week with colder weather but remain down &gt;12% YTD (while US pipeline exports to Mexico are +4.4% YTD). Globally, European gas storage (GIE AGSI+) stands at <strong>71.6% full</strong> (1,132.36 TWh, drawing down -2.46 pp over 7 days at 3,973 GWh/d, Elevated Storage Risk 56/100), with TTF and JKM near <strong>34.0 USD/MMBtu</strong> (92.54 EUR/MWh), keeping US LNG netbacks wide open. Macro headwinds remain elevated as the US 10Y yield sits at <strong>5.10%</strong>, 10Y real yield (<code class="font-mono text-xs">DFII10</code>) at <strong>2.86%</strong>, and <code class="font-mono text-xs">DXY</code> near 19-month highs (<strong>103.08–103.38</strong>).</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.2 Open Interest (OI), COT Positioning, Option Walls &amp; Curve Structure (Core Structural Driver):</strong>
+          <ul class="space-y-1.5">
+            <li>• <strong>Extreme CFTC COT Divergence:</strong> Total combined OI is <strong>1,696,280</strong> (-2.0% 1w, -5.6% 4w; ex-spread <strong>841,481</strong>, spread share <strong>50.4%</strong>; active <code class="font-mono text-xs">NGZ26</code> daily OI <strong>1,643,363</strong>). <code class="font-mono text-xs">Money Managers</code> hold a massive net short of <strong>-224,495 contracts</strong> (<strong>0th annual percentile</strong>, <code class="font-mono text-xs">pos 0.00</code>), having aggressively added <strong>67,647 net shorts (-43.1% 1w)</strong> right into the late-October/early-November lows. Because <code class="font-mono text-xs">NGZ26</code> has rallied <strong>+11.6%</strong> since Nov 3 ($2.895 to $3.230, peaking at $3.340), those 67,647 newly added shorts are deeply underwater. Meanwhile, smart-money and commercial categories moved aggressively the other way: <code class="font-mono text-xs">Other Large Speculators</code> slashed their net short by <strong>50,761 contracts (+59.1% 1w)</strong> to <strong>-35,085</strong> (<strong>98th percentile</strong>), <code class="font-mono text-xs">Producers/Processors</code> cut their net short by <strong>12,543 contracts (+95.8% 1w)</strong> to near-flat <strong>-551</strong> (<strong>77th percentile</strong>), and <code class="font-mono text-xs">Swap Dealers</code> expanded their net long to <strong>+243,705</strong> (<strong>98th percentile</strong>, rising 12 weeks in a row). The <code class="font-mono text-xs">speculative minus hedging</code> gap sits at <strong>-259,029 (0th percentile)</strong>.</li>
+            <li>• <strong>Option Walls &amp; Strike Dynamics (<code class="font-mono text-xs">ONZ26</code> / <code class="font-mono text-xs">ONF27</code>):</strong> <code class="font-mono text-xs">ONZ26</code> carries <strong>7,810 calls</strong> vs <strong>10,644 puts</strong>; the Put/Call OI ratio rose from <strong>1.45 to 1.54 (+0.09)</strong> as traders built protective puts below price (<strong>$3.05 Put +250 to 503 OI</strong>, <strong>$3.15 Put +132 to 171 OI</strong>, <strong>$2.60 Put +121 to 181 OI</strong>) and took profits on overhead calls (<strong>$3.50 Call cut -556 to 855 OI</strong>, <strong>$3.80 Call cut -342 to 1,325 OI</strong>, while building <strong>$3.75 Call +183 to 533 OI</strong>). Key overhead resistance walls sit at <strong>$3.50 (855 OI, +8.4%)</strong>, <strong>$3.80 (1,325 OI, +17.6%)</strong>, and <strong>$4.00 (987 OI, +23.8%)</strong>, while passed Put Walls at <strong>$3.00 (1,152 OI, -7.1%)</strong> and <strong>$2.70 (1,537 OI, -16.4%, converging within 1.8% of the $2.75 lower volume bank)</strong> act as structural floors.</li>
+            <li>• <strong>Futures Curve Shape (Winter Hump):</strong> <code class="font-mono text-xs">NGZ26</code> ($3.23) trades in steep seasonal contango to peak-winter January <code class="font-mono text-xs">NGF27</code> (<strong>$3.61, +11.6% front-to-contract-2 spread</strong>), followed by February <code class="font-mono text-xs">NGG27</code> at <strong>$3.18 (-1.5%)</strong> and a steep backwardated drop into spring (<code class="font-mono text-xs">NGH27</code> <strong>$2.44 [-24.6%]</strong>, <code class="font-mono text-xs">NGJ27</code> <strong>$2.38 [-26.3%]</strong>, <code class="font-mono text-xs">NGK27</code> <strong>$2.44 [-24.3%]</strong>). This +11.6% Dec–Jan winter premium incentivizes storage holders to retain inventory for January delivery while forcing December short-covering ahead of First Notice (Nov 27) and Expiry (Nov 25).</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.3 Cross-Asset &amp; Relative Value Context (Mandatory Check — Energy Complex &amp; Risk Benchmark):</strong>
+          Over the past 21 trading days, Natural Gas (<code class="font-mono text-xs">NGZ26</code>) surged <strong>+22.3%</strong>, outperforming the <strong>Nasdaq-100 risk benchmark</strong> (<code class="font-mono text-xs">28,035</code>, +3.5% 5d, -3.7% 21d) by a massive <strong>+26.1 percentage points</strong> (<code class="font-mono text-xs">divergence 21d: +26.1pp</code>). Even more strikingly, Natural Gas completely decoupled from the crude oil complex (<code class="font-mono text-xs">WTI CLZ26</code> at <strong>$88.56</strong>, -2.5% 5d, <strong>-14.2% 21d</strong>; <code class="font-mono text-xs">Brent BZF27</code> at <strong>$95.84</strong>, -2.5% 5d, <strong>-14.8% 21d</strong>), as domestic weather revisions, AI data-center power plant approvals (e.g., Nevada 510-MW gas plant), and record LNG feedgas insulated Henry Hub from crude's geopolitical risk unwind.
+        </div>
+
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+          <strong class="text-slate-900 block mb-1">2.4 Subordinate Technical Confirmation (Auxiliary Timing — 10–15% Weight):</strong>
+          Across the 180-day window (126 sessions), momentum and capital flow strongly confirm the bullish breakout: <code class="font-mono text-xs">RSI(14) = 58.50</code> (+5.50 over 5d, 86th percentile, rising) and <code class="font-mono text-xs">MFI(14) = 69.10</code> (+19.20 over 5d, <strong>97th percentile</strong>, rising), generating a powerful positive flow divergence of <strong><code class="font-mono text-xs">MFI minus RSI = +10.6</code></strong> ("money is coming in ahead of price"). Price trades <strong>+9.20% above its 20-day SMA</strong> (~$2.958, 96th percentile) and <strong>+7.20% above its 50-day SMA</strong> (~$3.013, 82nd percentile), reversing the SMA20/SMA50 bearish cross from 8 sessions ago. Volatility is elevated but stable (<code class="font-mono text-xs">ATR(14) = 4.77%</code>, 89th percentile; 3-month typical daily move <strong>1.85%</strong>).
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. UPCOMING EVENTS & TRIGGERS -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+        3. Upcoming Events &amp; Triggers (Nov 16–26, 2026)
+      </h2>
+      <div class="table-wrap">
+        <table class="w-full text-sm text-left border-collapse min-w-[720px]">
+          <thead>
+            <tr class="bg-slate-50 border-y border-slate-200 text-slate-600 font-semibold">
+              <th class="py-3 px-4">Event / Release</th>
+              <th class="py-3 px-4">Market Impact &amp; Transmission Mechanism for NGZ26</th>
+              <th class="py-3 px-4 whitespace-nowrap">Date</th>
+              <th class="py-3 px-4">Impact</th>
+              <th class="py-3 px-4">Reference / Prior</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr class="hover:bg-slate-50/80 bg-rose-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">NOAA CPC 6–10 Day &amp; 8–14 Day Temperature Outlooks &amp; LNG Feedgas Flows</td>
+              <td class="py-3 px-4">High-frequency weather model runs and daily terminal nominations; sustained cold revisions (&gt;138 HDDs) and LNG feedgas above 19.3–20.4 Bcf/d directly pressure trapped shorts above $3.23.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">Daily</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">138 HDDs (+9.5% rev) / 19.3–20.4 Bcf/d LNG</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-emerald-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">CFTC Commitments of Traders (COT) Report (Delayed from Nov 13 by Veterans Day)</td>
+              <td class="py-3 px-4">Reveals the extent of Money Manager short-covering during the Nov 9–10 surge from $2.998 to $3.296 following their record 0th-percentile short build (-224,495 contracts).</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-16</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">Money Managers: -224,495 (0th %ile)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">FOMC October Meeting Minutes &amp; US Industrial Production</td>
+              <td class="py-3 px-4">Gauges industrial gas burn resilience and macro rate pressure (DGS10 at 5.10%, DXY at 103.08–103.38) across the broader energy complex.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-18</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">Fed Funds 3.88% / DGS10 5.10%</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-rose-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">EIA Weekly Natural Gas Storage Report (for week ended Nov 13)</td>
+              <td class="py-3 px-4">Critical final-stage injection/withdrawal transition print; a smaller-than-expected build or early draw will catalyze a test of the $3.500 Call Wall.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-19</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">+61 Bcf build to 3,862 Bcf (+75 Bcf vs 5-yr avg)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-semibold text-slate-900">Baker Hughes North America Natural Gas Rig Count</td>
+              <td class="py-3 px-4">Tracks producer drilling discipline after US gas rigs fell by 4 to 127 and Haynesville dropped by 3 to 53; further rig declines tighten 2027 supply expectations.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-20</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+              <td class="py-3 px-4">127 gas rigs (-4 w/w), Haynesville 53 (-3 w/w)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-amber-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">NYMEX December Natural Gas Options (ONZ26) Expiration</td>
+              <td class="py-3 px-4">Dealer gamma un-pinning around the $3.50 Call Wall (855 OI) and $3.00 Put Wall (1,152 OI) on the day before December futures termination.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-24</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">$3.50 Call Wall (855 OI) / $3.00 Put Wall (1,152 OI)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 bg-rose-50/30">
+              <td class="py-3 px-4 font-semibold text-slate-900">NYMEX December Natural Gas Futures (NGZ26) Expiration &amp; Pre-Holiday EIA Storage / Positioning</td>
+              <td class="py-3 px-4">Final settlement of NGZ26 and forced roll into peak-winter January NGF27 ($3.61, +11.6% contango spread), historically a high-volatility short-squeeze window.</td>
+              <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-25</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+              <td class="py-3 px-4">NGZ26 settle $3.230 vs NGF27 $3.610 (+11.6% roll)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Static Chart.js Candlestick & Levels Script (Left Half Candlesticks / Right Half Reserved) -->
+  <script>
+    window.onload = function() {
+      // 20 total X-axis slots:
+      // Indices 0..9 (Left Half) = 10 completed sessions (2026-11-02 to 2026-11-13)
+      // Indices 10..19 (Right Half) = 10 reserved forecast slots (2026-11-16 to 2026-11-27)
+      const labels = [
+        '2026-11-02', '2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06',
+        '2026-11-09', '2026-11-10', '2026-11-11', '2026-11-12', '2026-11-13',
+        '2026-11-16', '2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20',
+        '2026-11-23', '2026-11-24', '2026-11-25', '2026-11-26', '2026-11-27'
+      ];
+
+      // Verified NGZ26 Daily OHLC Series (Nov 2 – Nov 13, 2026)
+      const ohlcData = [
+        { xIndex: 0, date: '2026-11-02', o: 2.898, h: 2.915, l: 2.835, c: 2.856 },
+        { xIndex: 1, date: '2026-11-03', o: 2.856, h: 2.912, l: 2.842, c: 2.895 },
+        { xIndex: 2, date: '2026-11-04', o: 2.895, h: 2.980, l: 2.880, c: 2.959 },
+        { xIndex: 3, date: '2026-11-05', o: 2.959, h: 2.978, l: 2.920, c: 2.947 },
+        { xIndex: 4, date: '2026-11-06', o: 2.947, h: 3.040, l: 2.940, c: 2.998 },
+        { xIndex: 5, date: '2026-11-09', o: 2.998, h: 3.239, l: 2.995, c: 3.218 },
+        { xIndex: 6, date: '2026-11-10', o: 3.218, h: 3.315, l: 3.205, c: 3.296 },
+        { xIndex: 7, date: '2026-11-11', o: 3.296, h: 3.305, l: 3.195, c: 3.215 },
+        { xIndex: 8, date: '2026-11-12', o: 3.239, h: 3.348, l: 3.226, c: 3.340 },
+        { xIndex: 9, date: '2026-11-13', o: 3.340, h: 3.345, l: 3.218, c: 3.230 }
+      ];
+
+      // Electronic Reference Price Marker ($3.245/MMBtu)
+      const refPrice = 3.245;
+
+      const closePlaceholders = labels.map((_, idx) => {
+        const found = ohlcData.find(d => d.xIndex === idx);
+        return found ? found.c : null;
+      });
+
+      // Horizontal structural, option wall, volume bank, and forecast levels
+      const horizontalLevels = [
+        { price: 4.000, label: '$4.000 Call Wall (987 OI, +23.8%)', color: '#dc2626', width: 2.4, dash: [] },
+        { price: 3.800, label: '$3.800 Major Call Wall (1,325 OI, +17.6%)', color: '#dc2626', width: 3.2, dash: [] },
+        { price: 3.550, label: '$3.550 Upper Target (+9.9%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+        { price: 3.500, label: '$3.500 Call Wall (855 OI, +8.4%)', color: '#dc2626', width: 2.4, dash: [] },
+        { price: 3.400, label: '$3.400 Lower Target (+5.3%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+        { price: 3.229, label: '$3.230 Upper 3M Volume Bank / Settle', color: '#9333ea', width: 2.5, dash: [6, 4] },
+        { price: 3.000, label: '$3.000 Put Wall Support (1,152 OI, -7.1%)', color: '#16a34a', width: 2.6, dash: [] },
+        { price: 2.980, label: '$2.980 Invalidation Level (-7.7%)', color: '#dc2626', width: 2.2, dash: [2, 4] },
+        { price: 2.750, label: '$2.750 Lower 3M Volume Bank (-14.9%)', color: '#9333ea', width: 2.4, dash: [6, 4] },
+        { price: 2.700, label: '$2.700 Major Put Wall (1,537 OI, -16.4%)', color: '#16a34a', width: 3.2, dash: [] },
+        { price: 2.600, label: '$2.600 Put Wall / Window Low (885 OI, -19.5%)', color: '#16a34a', width: 2.2, dash: [] }
+      ];
+
+      function drawRoundedRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      }
+
+      const staticCandlesAndLevelsPlugin = {
+        id: 'staticCandlesAndLevelsPlugin',
+        beforeLayout(chart) {
+          const isMobile = window.innerWidth < 640;
+          chart.options.layout.padding.right = isMobile ? 12 : 250;
+        },
+        beforeDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          ctx.save();
+
+          // 1. Subtle background tint on the Right Half (indices 10..19) for reserved forecast window
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.fillStyle = 'rgba(241, 245, 249, 0.45)';
+          ctx.fillRect(xDivider, top, right - xDivider, bottom - top);
+
+          // Vertical dashed divider between index 9 and 10
+          ctx.beginPath();
+          ctx.strokeStyle = '#cbd5e1';
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([4, 4]);
+          ctx.moveTo(xDivider, top);
+          ctx.lineTo(xDivider, bottom);
+          ctx.stroke();
+
+          // 2. Shaded Light-Green Forecast Target Zone ($3.400 – $3.550)
+          const yTopTarget = y.getPixelForValue(3.550);
+          const yBottomTarget = y.getPixelForValue(3.400);
+          const clampTop = Math.max(top, Math.min(bottom, yTopTarget));
+          const clampBottom = Math.max(top, Math.min(bottom, yBottomTarget));
+          if (clampBottom > clampTop) {
+            ctx.fillStyle = 'rgba(34, 197, 94, 0.18)';
+            ctx.fillRect(left, clampTop, right - left, clampBottom - clampTop);
+          }
+
+          // 3. Draw Horizontal Option Walls, Volume Bank Boundaries, and Target/Invalidation Lines
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          visibleLevels.forEach(lvl => {
+            ctx.beginPath();
+            ctx.strokeStyle = lvl.color;
+            ctx.lineWidth = lvl.width;
+            ctx.setLineDash(lvl.dash);
+            ctx.moveTo(left, lvl.yPos);
+            ctx.lineTo(right, lvl.yPos);
+            ctx.stroke();
+          });
+
+          // 4. Draw OHLC Candlesticks strictly in the Left Half (indices 0..9)
+          const slotWidth = x.getPixelForValue(1) - x.getPixelForValue(0);
+          const candleWidth = Math.max(6, Math.min(22, slotWidth * 0.58));
+
+          ohlcData.forEach(d => {
+            const xCenter = x.getPixelForValue(d.xIndex);
+            const yHigh = y.getPixelForValue(d.h);
+            const yLow = y.getPixelForValue(d.l);
+            const yOpen = y.getPixelForValue(d.o);
+            const yClose = y.getPixelForValue(d.c);
+
+            const isBull = d.c >= d.o;
+            const fillColor = isBull ? '#16a34a' : '#dc2626';
+            const borderColor = isBull ? '#15803d' : '#b91c1c';
+
+            // High-Low Wick
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.5;
+            ctx.moveTo(xCenter, yHigh);
+            ctx.lineTo(xCenter, yLow);
+            ctx.stroke();
+
+            // Open-Close Body
+            const bodyTop = Math.min(yOpen, yClose);
+            const bodyBottom = Math.max(yOpen, yClose);
+            const bodyHeight = Math.max(2, bodyBottom - bodyTop);
+
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1.2;
+            ctx.strokeRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+          });
+
+          // 5. Draw Electronic Reference Marker ($3.245, +0.5% vs Settle) at Index 10
+          const yRef = y.getPixelForValue(refPrice);
+          const xRef = x.getPixelForValue(10);
+          if (yRef >= top && yRef <= bottom) {
+            ctx.beginPath();
+            ctx.setLineDash([2, 2]);
+            ctx.strokeStyle = '#2563eb';
+            ctx.lineWidth = 1.5;
+            ctx.moveTo(xDivider, yRef);
+            ctx.lineTo(xRef + 24, yRef);
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.arc(xRef, yRef, 4.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#2563eb';
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#ffffff';
+            ctx.stroke();
+
+            const badgeText = 'Ref: $3.245 (+0.5%)';
+            ctx.font = '600 10px Inter, sans-serif';
+            const textW = ctx.measureText(badgeText).width;
+            const boxX = xRef + 8;
+            const boxY = yRef - 9;
+            drawRoundedRect(ctx, boxX, boxY, textW + 10, 18, 4);
+            ctx.fillStyle = 'rgba(37, 99, 235, 0.92)';
+            ctx.fill();
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(badgeText, boxX + 5, yRef);
+          }
+
+          ctx.restore();
+        },
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+          const isMobile = window.innerWidth < 640;
+          ctx.save();
+
+          // Section watermark headers
+          const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+          ctx.font = '600 10px Inter, sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.textAlign = 'left';
+          ctx.fillText('ACTUAL SESSIONS (NOV 2 – NOV 13)', left + 8, top + 14);
+          ctx.fillText('FORECAST WINDOW / RESERVED SPACE', xDivider + 10, top + 14);
+
+          // Right-Margin Level Labels with Anti-Collision Spacing
+          ctx.font = isMobile ? '600 10px Inter, sans-serif' : '600 11px Inter, sans-serif';
+          ctx.textBaseline = 'middle';
+
+          const visibleLevels = horizontalLevels
+            .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+            .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+            .sort((a, b) => a.yPos - b.yPos);
+
+          const minLabelGap = isMobile ? 14 : 15;
+          for (let i = 0; i < visibleLevels.length; i++) {
+            if (i === 0) {
+              visibleLevels[i].labelY = Math.max(top + 8, visibleLevels[i].yPos);
+            } else {
+              visibleLevels[i].labelY = Math.max(
+                visibleLevels[i].yPos,
+                visibleLevels[i - 1].labelY + minLabelGap
+              );
+            }
+          }
+
+          visibleLevels.forEach(lvl => {
+            if (!isMobile) {
+              if (Math.abs(lvl.labelY - lvl.yPos) > 2) {
+                ctx.beginPath();
+                ctx.setLineDash([]);
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = lvl.color;
+                ctx.moveTo(right, lvl.yPos);
+                ctx.lineTo(right + 6, lvl.labelY);
+                ctx.stroke();
+              }
+              ctx.textAlign = 'left';
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right + 9, lvl.labelY);
+            } else {
+              ctx.textAlign = 'right';
+              const textWidth = ctx.measureText(lvl.label).width;
+              const pillPaddingX = 5;
+              const pillHeight = 13;
+              const pillX = right - 6 - textWidth - pillPaddingX;
+              const pillY = lvl.labelY - pillHeight / 2;
+
+              drawRoundedRect(ctx, pillX, pillY, textWidth + pillPaddingX * 2, pillHeight, 3);
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
+              ctx.fill();
+
+              ctx.fillStyle = lvl.color;
+              ctx.fillText(lvl.label, right - 6, lvl.labelY);
+            }
+          });
+
+          ctx.restore();
+        }
+      };
+
+      const ctx = document.getElementById('ngzChart').getContext('2d');
+
+      const ngzChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'NGZ26 Close',
+            data: closePlaceholders,
+            borderColor: 'transparent',
+            backgroundColor: 'transparent',
+            pointRadius: 0,
+            pointHoverRadius: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          events: [],
+          layout: {
+            padding: {
+              right: window.innerWidth < 640 ? 12 : 250,
+              top: 16,
+              bottom: 10,
+              left: 4
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+          scales: {
+            y: {
+              min: 2.65,
+              max: 3.70,
+              ticks: {
+                stepSize: 0.10,
+                callback: (val) => '$' + val.toFixed(2)
+              },
+              title: {
+                display: true,
+                text: 'Price (USD / MMBtu)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            },
+            x: {
+              offset: true,
+              ticks: {
+                maxRotation: 45,
+                minRotation: 0,
+                callback: function(value, index) {
+                  return index < 10 ? labels[index] : '';
+                }
+              },
+              title: {
+                display: true,
+                text: 'Trading Session (Left Half: Historical OHLC | Right Half: Reserved Forecast Space)',
+                font: { weight: '600' }
+              },
+              grid: { color: '#f1f5f9' }
+            }
+          }
+        },
+        plugins: [staticCandlesAndLevelsPlugin]
+      });
+
+      const btnZoomActive = document.getElementById('btnZoomActive');
+      const btnZoomFull = document.getElementById('btnZoomFull');
+
+      btnZoomActive.addEventListener('click', function() {
+        ngzChart.options.scales.y.min = 2.65;
+        ngzChart.options.scales.y.max = 3.70;
+        ngzChart.options.scales.y.ticks.stepSize = 0.10;
+        btnZoomActive.classList.add('zoom-btn-active');
+        btnZoomActive.classList.remove('zoom-btn-inactive');
+        btnZoomFull.classList.remove('zoom-btn-active');
+        btnZoomFull.classList.add('zoom-btn-inactive');
+        ngzChart.update();
+      });
+
+      btnZoomFull.addEventListener('click', function() {
+        ngzChart.options.scales.y.min = 2.50;
+        ngzChart.options.scales.y.max = 4.15;
+        ngzChart.options.scales.y.ticks.stepSize = 0.15;
+        btnZoomFull.classList.add('zoom-btn-active');
+        btnZoomFull.classList.remove('zoom-btn-inactive');
+        btnZoomActive.classList.remove('zoom-btn-active');
+        btnZoomActive.classList.add('zoom-btn-inactive');
+        ngzChart.update();
+      });
+    };
+  </script>
+</body>
+</html>
