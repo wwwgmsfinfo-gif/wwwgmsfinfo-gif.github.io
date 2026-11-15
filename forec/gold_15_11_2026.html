@@ -1,0 +1,517 @@
+<meta charset="utf-8">
+<title>Gold (GCZ26) Forecast</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: light; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+  .wrap-gutter { padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px)); }
+  .chart-wrapper { position: relative; width: 100%; height: 560px; }
+  @media (max-width: 640px) { .chart-wrapper { height: 460px; } }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .zoom-btn-active { background-color: #0f172a; color: #ffffff; border-color: #0f172a; }
+  .zoom-btn-inactive { background-color: #ffffff; color: #475569; border-color: #cbd5e1; }
+  .zoom-btn-inactive:hover { background-color: #f1f5f9; color: #0f172a; }
+  a.src { color: #2563eb; text-decoration: underline; text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+</style>
+
+<div class="antialiased py-4 sm:py-6 wrap-gutter">
+<div class="max-w-6xl mx-auto space-y-5 sm:space-y-6">
+
+  <!-- Header Banner -->
+  <header class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div>
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300">
+            FORECAST: RANGE INTO OPTIONS EXPIRY, BEARISH TILT • FLAT 40% / DOWN 35%
+          </span>
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">GOLD FUTURES • GCZ26 (COMEX)</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+          GOLD (GCZ26) — 1–2 Week Forecast (Nov 16–30, 2026)
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1.5 font-medium">
+          Last Settle (Nov 13): <span class="text-slate-900 font-bold">3,886.30 USD / oz</span> <span class="text-rose-600 font-semibold">(-4.6% 5d • 20-week low at $3,856.70)</span> | Live: <span class="text-slate-500 font-semibold">market closed for the weekend</span> | Window: <span class="text-slate-800 font-semibold">5 sessions to Nov 20, extended to Nov 30</span>
+        </p>
+      </div>
+      <div class="bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-600 flex flex-col sm:items-end gap-1 shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+          <span class="font-semibold text-slate-800">Base Range:</span>
+          <span class="font-bold text-slate-800">3,820 – 3,952 USD (±1.7%)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span class="font-semibold text-slate-800">Target Zone A / B:</span>
+          <span class="font-bold text-emerald-700">3,750 – 3,800 / 3,990 – 4,048 USD</span>
+        </div>
+        <div class="text-slate-500">
+          Invalidation Level: <span class="font-semibold text-rose-700">Daily Close &gt; 4,048 or &lt; 3,700 USD</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Safe trading banner -->
+  <a href="https://privatex.trade/trade?pair=XAUt-USDT" target="_blank" rel="noopener" class="block bg-slate-900 hover:bg-slate-800 text-white rounded-xl px-4 py-3 text-xs sm:text-sm font-medium flex items-center justify-between gap-3 shadow-sm transition">
+    <span class="flex items-center gap-2">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+      <span><strong>Trade tokenized gold (XAUt) safely with PrivatEx.</strong> Your keys, your funds, no middlemen.</span>
+    </span>
+    <span class="font-semibold text-emerald-300 whitespace-nowrap">Trade XAUt →</span>
+  </a>
+
+  <!-- CHART SECTION -->
+  <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+      <div>
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight uppercase">
+          CHART — GCZ26 Daily Candlesticks (Left Half), Forecast Target Band &amp; Option / Volume Bank Levels
+        </h2>
+        <p class="text-xs text-slate-500 mt-0.5">Last 10 sessions occupy the left half of the canvas; right half is reserved for the forecast window. OHLC: <a class="src" href="https://uk.investing.com/commodities/gold-historical-data" target="_blank" rel="noopener">Investing.com</a>. Option open interest: December options (OGZ26) as of Nov 11; "calc." marks a wall computed from a cluster of strikes.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 shrink-0">
+        <button id="btnZoomActive" type="button" class="zoom-btn-active px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+          Active Trading Zone ($3,650 – $4,250)
+        </button>
+        <button id="btnZoomFull" type="button" class="zoom-btn-inactive px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
+          Full Levels Range ($3,450 – $4,850)
+        </button>
+      </div>
+    </div>
+
+    <!-- Legend Box Above the Chart -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-0.5 shrink-0">
+          <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
+          <span class="w-2.5 h-3.5 bg-[#dc2626] border border-[#b91c1c] inline-block"></span>
+        </span>
+        <span>Candlesticks (Left Half): <strong class="font-semibold">GCZ26 Daily OHLC (to $3,886.30)</strong></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-4 h-3.5 bg-emerald-500/20 border border-[#15803d] rounded-sm inline-block shrink-0"></span>
+        <span>Light-Green Band: <strong class="font-semibold">Target Zone A ($3,750 – $3,800)</strong></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-6 h-0 border-t-[3px] border-solid border-[#dc2626] inline-block shrink-0"></span>
+        <span>Red Solid Line: <strong class="font-semibold">Call Option Wall (4,200 calc. / 14,580 OI)</strong></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-6 h-0 border-t-[2.5px] border-solid border-[#16a34a] inline-block shrink-0"></span>
+        <span>Green Solid Line: <strong class="font-semibold">Put Option Wall (3,900 / 6,462 OI)</strong></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-6 h-0 border-t-2 border-dashed border-[#9333ea] inline-block shrink-0"></span>
+        <span>Purple Dashed Line: <strong class="font-semibold">3M Volume Bank ($4,047.80 / $4,697.80)</strong></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-6 h-0 border-t-2 border-dotted border-[#dc2626] inline-block shrink-0"></span>
+        <span>Red Dotted Line: <strong class="font-semibold">Invalidation Levels ($4,048 / $3,700)</strong></span>
+      </div>
+    </div>
+
+    <div class="chart-wrapper">
+      <canvas id="gcChart" role="img" aria-label="GCZ26 daily candlesticks with option walls, volume bank, target zones and invalidation levels"></canvas>
+    </div>
+  </section>
+
+  <!-- 1. FORECAST -->
+  <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+    <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+      1. Forecast (1–2 Weeks: Nov 16–30, 2026)
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5">
+      <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+        <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.1 Scenario Probabilities</div>
+        <div class="text-sm font-bold text-slate-900">
+          UP <span class="text-emerald-600">25%</span> · FLAT <span class="text-slate-600">40%</span> · DOWN <span class="text-rose-600">35%</span>
+        </div>
+        <div class="text-xs text-slate-500 mt-0.5">Flat band: $3,820 – $3,952 (±1.7%)</div>
+      </div>
+      <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+        <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.2 Target Range</div>
+        <div class="text-sm font-bold text-emerald-700">A: 3,750 – 3,800 · B: 3,990 – 4,048</div>
+        <div class="text-xs text-slate-600 mt-0.5">A: -2.2% to -3.5% · B: +2.7% to +4.2% vs Nov 13 settle ($3,886.30)</div>
+      </div>
+      <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+        <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.3 Key Structural Pivot</div>
+        <div class="text-sm font-bold text-emerald-700">3,900 Put Wall (6,462 OI)</div>
+        <div class="text-xs text-slate-600 mt-0.5">Pins price into the Nov 24 options expiry; a close below $3,856.70 opens zone A</div>
+      </div>
+      <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
+        <div class="text-xs font-semibold text-slate-500 uppercase mb-1">1.4 Scenario Invalidation</div>
+        <div class="text-sm font-bold text-rose-700">Daily Close &gt; 4,048 or &lt; 3,700</div>
+        <div class="text-xs text-slate-600 mt-0.5">Or FedWatch odds of a Dec 9 hike fall below 50%</div>
+      </div>
+    </div>
+
+    <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+      <p>
+        <strong class="text-slate-900">Analytical Forecast:</strong> The base case (<strong>40%</strong>) is a range of <strong>$3,820–$3,952</strong> until the December options expire on <strong>Nov 24</strong>: 134,498 calls and 116,924 puts are open on that series, and the largest nearby put wall sits right at <strong>$3,900</strong>. The range breaks on two releases early in the window: US retail sales on <strong>Nov 17</strong> and the FOMC minutes on <strong>Nov 18</strong>. <strong>Branch A (35%):</strong> strong sales or hawkish minutes push the dollar further above 103, price breaks the $3,856.70 low and falls to <strong>$3,750–$3,800</strong> by Nov 18–24, with the 3,700 put cluster as the floor. <strong>Branch B (25%):</strong> weak sales or soft minutes trigger a rebound to <strong>$3,990–$4,048</strong> by Nov 18–27, capped by the lower edge of the 3-month volume bank and the 4,100 calls. Selling dominates for now: Friday's bounce to <strong>$3,927.20</strong> gave back about 90% of its gain (<a class="src" href="https://investinglive.com/commodities/gold-futures-rose-friday-but-the-rally-failed-what-i-m-watching-next-week" target="_blank" rel="noopener">investingLive, Nov 14</a>).
+      </p>
+      <p class="text-xs sm:text-sm text-slate-600 bg-slate-50 border border-slate-200/80 rounded-lg p-3">
+        <strong class="text-slate-900">External Analysts:</strong> three views found, and they split. Goldman Sachs targets <strong>$4,150</strong> for end-2026 after cutting from $4,650 (up; <a class="src" href="https://investinglive.com/commodities/icymi-goldman-cuts-gold-forecasts-to-4-150-for-2026-4-800-for-2027-as-hawkish-fed-bites/" target="_blank" rel="noopener">investingLive, Nov 9</a>). NordFX sees a <strong>$3,750–$4,000</strong> base case for Nov 16–20 (range; <a class="src" href="https://nordfx.com/market-news/forex-cryptocurrency-forecast-november-16-20-2026" target="_blank" rel="noopener">NordFX</a>). RoboForex sells below $3,790 with a <strong>$3,600</strong> target (down; <a class="src" href="https://roboforex.com/beginners/analytics/forex-forecast/gold/xau-usd-gold-weekly-forecast-2026-11-13/" target="_blank" rel="noopener">RoboForex, Nov 13</a>). No net shift to the probabilities.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. WHY -->
+  <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+    <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+      2. Why (Fundamental &amp; Microstructure Breakdown)
+    </h2>
+
+    <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+        <strong class="text-slate-900 block mb-1">2.1 Fundamental Drivers &amp; Macro Primacy:</strong>
+        <strong>Rates and the dollar drive gold now.</strong> CME FedWatch puts a 25 bp hike on Dec 9 at <strong>91%</strong> and 50 bp at 9%, after an October PPI slightly cooler than expected: +0.3% m/m vs 0.4% forecast, 6.5% y/y vs 6.6% (<a class="src" href="https://www.tokenpost.com/news/investing/56743" target="_blank" rel="noopener">TokenPost, Nov 13</a>). The fed funds range is 3.75–4.00%. The 10-year real yield climbed to <strong>2.86%</strong> (+8.7% in five days), the 10-year nominal to 5.10%, and the US Dollar Index hit a 19-month high above <strong>103</strong>. The hike is already priced; a fresh leg down needs talk of 50 bp. <strong>Demand is soft:</strong> GLD lost $1.53 billion over 30 days, India's October gold imports fell 62.57%, and jewellery demand declined for a 13th straight quarter. <strong>The floor:</strong> global gold ETFs still added 19 tonnes in October to a record 4,275 tonnes, though North America shed 4.5 tonnes (<a class="src" href="https://www.moneymetals.com/news/2026/11/06/etf-gold-flows-slow-in-october-but-remain-positive-005348" target="_blank" rel="noopener">Money Metals / WGC, Nov 6</a>), and Goldman expects central banks to buy about 60 tonnes a month. No new tariff decisions on gold bullion were found in the last seven days.
+      </div>
+
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+        <strong class="text-slate-900 block mb-1">2.2 OI, COT, Option Walls &amp; Curve:</strong>
+        <ul>
+          <li class="mb-1.5">• <strong>Speculators Have Already Left:</strong> managed money is net long <strong>104,297</strong> contracts (as of Nov 3), down for ten straight weeks and at the 38th annual percentile. Small traders sit at the 2nd percentile, and the gap between speculators and hedgers is at the 13th. This removes the fuel for a deep liquidation.</li>
+          <li class="mb-1.5">• <strong>Hedgers Buy the Dip:</strong> producers cut their net short by 5,591 contracts to -7,990 (98th percentile, the least short of the year), and swap dealers cut theirs by 26,149. A delayed COT report on Nov 16 shows whether this continued.</li>
+          <li class="mb-1.5">• <strong>Option Walls (OGZ26, expiry Nov 24, as of Nov 11):</strong> the put wall at <strong>3,900 (6,462)</strong> sits right at price, and the put cluster at <strong>3,700</strong> totals 18,638 contracts. Call walls are at 4,100 (5,484, calc.) and <strong>4,200 (14,580, calc.)</strong>, then 4,500 (11,263), 4,725 (9,534) and 4,800 (8,659). The put/call ratio rose to 0.85 from 0.78 as positioning shifts to puts. Options stop trading four business days before month-end (<a class="src" href="https://www.deltavalue.de/gold-future-optionen-og-optionskontrakt/" target="_blank" rel="noopener">CME rule via deltavalue.de</a>), so the walls matter most this week and next.</li>
+          <li>• <strong>Futures Curve:</strong> mild contango of <strong>+0.2%</strong> to the next contract and +1.0% to February (GCG27): no physical tightness. COMEX registered stocks hit a new low of 14.22 million oz while total stocks fell to 24.58 million oz.</li>
+        </ul>
+      </div>
+
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+        <strong class="text-slate-900 block mb-1">2.3 Cross-Asset &amp; Relative Value:</strong>
+        The whole precious metals complex is under pressure: silver fell <strong>5.4%</strong> and platinum <strong>3.1%</strong> over five days. Over 21 days gold is down 3.0% against 3.7% for the Nasdaq-100, so this is a rates-and-dollar move, not flight from risk. Middle East tension now works against gold: it lifts oil and inflation expectations, which adds to the case for Fed hikes.
+      </div>
+
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200/80">
+        <strong class="text-slate-900 block mb-1">2.4 Subordinate Technical Confirmation:</strong>
+        The five-day loss of <strong>4.6%</strong> equals 6.1 typical daily moves (0.76% each), so price is stretched. <code class="font-mono text-xs">RSI(14) = 35.9</code>, and price is <strong>-7.1%</strong> below the 50-day SMA (8th percentile). MFI runs 8.1 points above RSI: money is coming in ahead of price. The trend is still down: the 20-day SMA has been below the 50-day for 32 sessions, and price is below the lower edge of the 3-month volume bank at $4,047.80. ATR(14) is 2.36%, about $92 a day, so zone A is two to three sessions of follow-through away.
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. UPCOMING EVENTS -->
+  <section class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+    <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 uppercase">
+      3. Upcoming Events &amp; Triggers (Nov 16–30, 2026)
+    </h2>
+    <div class="table-wrap">
+      <table class="w-full text-sm text-left border-collapse min-w-[720px]">
+        <thead>
+          <tr class="bg-slate-50 border-y border-slate-200 text-slate-600 font-semibold">
+            <th class="py-3 px-4">Event / Release</th>
+            <th class="py-3 px-4">Market Impact &amp; Transmission Mechanism for GCZ26</th>
+            <th class="py-3 px-4 whitespace-nowrap">Date</th>
+            <th class="py-3 px-4">Impact</th>
+            <th class="py-3 px-4">Reference / Prior</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200 text-slate-700">
+          <tr class="hover:bg-slate-50/80">
+            <td class="py-3 px-4 font-semibold text-slate-900">Fed Chair Warsh Speech</td>
+            <td class="py-3 px-4">Any hint at 50 bp in December favours branch A.</td>
+            <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-16</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+            <td class="py-3 px-4">Time not found (<a class="src" href="https://nordfx.com/market-news/forex-cryptocurrency-forecast-november-16-20-2026" target="_blank" rel="noopener">NordFX</a>)</td>
+          </tr>
+          <tr class="hover:bg-slate-50/80">
+            <td class="py-3 px-4 font-semibold text-slate-900">CFTC Commitments of Traders (delayed)</td>
+            <td class="py-3 px-4">Shows whether funds kept cutting longs and hedgers kept buying.</td>
+            <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-16</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+            <td class="py-3 px-4">MM net 104,297 (<a class="src" href="https://cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm" target="_blank" rel="noopener">CFTC</a>)</td>
+          </tr>
+          <tr class="hover:bg-slate-50/80 bg-amber-50/30">
+            <td class="py-3 px-4 font-semibold text-slate-900">US Retail Sales (October)</td>
+            <td class="py-3 px-4">First fork: strong data lifts yields and the dollar, weak data opens branch B.</td>
+            <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-17</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+            <td class="py-3 px-4">8:30 ET (<a class="src" href="https://www.simianx.ai/stories/us-economic-calendar-this-month-in-your-time-zone" target="_blank" rel="noopener">calendar</a>)</td>
+          </tr>
+          <tr class="hover:bg-slate-50/80 bg-amber-50/30">
+            <td class="py-3 px-4 font-semibold text-slate-900">FOMC Minutes (October Meeting)</td>
+            <td class="py-3 px-4">Second fork: talk of a larger hike adds pressure on gold.</td>
+            <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-18</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+            <td class="py-3 px-4">Held at 3.75–4.00%, two dissents for a hike</td>
+          </tr>
+          <tr class="hover:bg-slate-50/80">
+            <td class="py-3 px-4 font-semibold text-slate-900">US Initial Jobless Claims</td>
+            <td class="py-3 px-4">Labour market strength keeps the hike priced.</td>
+            <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-19</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+            <td class="py-3 px-4">8:30 ET</td>
+          </tr>
+          <tr class="hover:bg-slate-50/80 bg-emerald-50/30">
+            <td class="py-3 px-4 font-semibold text-slate-900">December Gold Options (OGZ26) Expiry</td>
+            <td class="py-3 px-4">Largest open interest of the window; the 3,900 put wall pins price until expiry, after which the range can break.</td>
+            <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-24</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+            <td class="py-3 px-4">Calls 134,498 / puts 116,924</td>
+          </tr>
+          <tr class="hover:bg-slate-50/80">
+            <td class="py-3 px-4 font-semibold text-slate-900">US PCE (October), Q3 GDP Second Estimate</td>
+            <td class="py-3 px-4">Last inflation read before the Dec 9 decision.</td>
+            <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-25</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-100 text-rose-800">High</span></td>
+            <td class="py-3 px-4">8:30 ET; Beige Book 14:00 ET</td>
+          </tr>
+          <tr class="hover:bg-slate-50/80">
+            <td class="py-3 px-4 font-semibold text-slate-900">US Thanksgiving</td>
+            <td class="py-3 px-4">No CME settlement; thin liquidity can exaggerate moves.</td>
+            <td class="py-3 px-4 whitespace-nowrap font-medium">2026-11-26</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-100 text-amber-800">Medium</span></td>
+            <td class="py-3 px-4"><a class="src" href="https://www.cmegroup.com/tools-information/holiday-calendar/files/2026/thanksgiving-holiday-settlement-times-2026.pdf" target="_blank" rel="noopener">CME schedule</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<script>
+(function() {
+  const labels = [
+    '2026-11-02', '2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06',
+    '2026-11-09', '2026-11-10', '2026-11-11', '2026-11-12', '2026-11-13',
+    '2026-11-16', '2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20',
+    '2026-11-23', '2026-11-24', '2026-11-25', '2026-11-27', '2026-11-30'
+  ];
+
+  const ohlcData = [
+    { xIndex: 0, o: 3890.00, h: 3980.80, l: 3889.00, c: 3969.60 },
+    { xIndex: 1, o: 3960.50, h: 3981.70, l: 3904.10, c: 3940.40 },
+    { xIndex: 2, o: 3940.80, h: 4081.20, l: 3928.20, c: 4073.00 },
+    { xIndex: 3, o: 4075.40, h: 4155.80, l: 4067.00, c: 4113.50 },
+    { xIndex: 4, o: 4098.50, h: 4116.20, l: 4035.10, c: 4074.90 },
+    { xIndex: 5, o: 4074.30, h: 4157.70, l: 4062.50, c: 4114.50 },
+    { xIndex: 6, o: 4149.00, h: 4156.20, l: 4020.80, c: 4030.20 },
+    { xIndex: 7, o: 4043.70, h: 4074.70, l: 3989.60, c: 4000.50 },
+    { xIndex: 8, o: 3994.00, h: 4005.90, l: 3856.70, c: 3885.30 },
+    { xIndex: 9, o: 3883.30, h: 3927.20, l: 3871.10, c: 3886.30 }
+  ];
+
+  const closePlaceholders = labels.map((_, idx) => {
+    const found = ohlcData.find(d => d.xIndex === idx);
+    return found ? found.c : null;
+  });
+
+  const TARGET_HI = 3800.00, TARGET_LO = 3750.00;
+  const horizontalLevels = [
+    { price: 4800.00, label: '4,800 Call Wall (8,659)', color: '#dc2626', width: 3.7, dash: [] },
+    { price: 4725.00, label: '4,725 Call Wall (9,534)', color: '#dc2626', width: 3.9, dash: [] },
+    { price: 4697.80, label: '4,697.80 Volume Bank (Upper)', color: '#9333ea', width: 2.2, dash: [6, 4] },
+    { price: 4500.00, label: '4,500 Call Wall (11,263)', color: '#dc2626', width: 4.3, dash: [] },
+    { price: 4200.00, label: '4,200 Call Wall, calc. (14,580)', color: '#dc2626', width: 5.0, dash: [] },
+    { price: 4100.00, label: '4,100 Call Wall, calc. (5,484)', color: '#dc2626', width: 2.9, dash: [] },
+    { price: 4048.00, label: '4,048 Invalidation (close above)', color: '#dc2626', width: 2.2, dash: [2, 4] },
+    { price: 4047.80, label: '4,047.80 Volume Bank (Lower)', color: '#9333ea', width: 2.4, dash: [6, 4] },
+    { price: 3990.00, label: '3,990 Target B (+2.7%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+    { price: 3900.00, label: '3,900 Put Wall (6,462)', color: '#16a34a', width: 3.1, dash: [] },
+    { price: 3800.00, label: '3,800 Target A (-2.2%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+    { price: 3750.00, label: '3,750 Target A (-3.5%)', color: '#15803d', width: 2.0, dash: [4, 4] },
+    { price: 3700.00, label: '3,700 Put Wall (6,731)', color: '#16a34a', width: 3.2, dash: [] },
+    { price: 3700.00, label: '3,700 Invalidation (close below)', color: '#dc2626', width: 2.2, dash: [2, 4] },
+    { price: 3500.00, label: '3,500 Put Wall (6,241)', color: '#16a34a', width: 3.1, dash: [] }
+  ];
+
+  function drawRoundedRect(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+  }
+
+  const staticCandlesAndLevelsPlugin = {
+    id: 'staticCandlesAndLevelsPlugin',
+    beforeLayout(chart) {
+      chart.options.layout.padding.right = window.innerWidth < 640 ? 12 : 240;
+    },
+    beforeDatasetsDraw(chart) {
+      const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+      ctx.save();
+
+      const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+      ctx.fillStyle = 'rgba(241, 245, 249, 0.45)';
+      ctx.fillRect(xDivider, top, right - xDivider, bottom - top);
+      ctx.beginPath();
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([4, 4]);
+      ctx.moveTo(xDivider, top);
+      ctx.lineTo(xDivider, bottom);
+      ctx.stroke();
+
+      const yTopTarget = y.getPixelForValue(TARGET_HI);
+      const yBottomTarget = y.getPixelForValue(TARGET_LO);
+      const clampTop = Math.max(top, Math.min(bottom, yTopTarget));
+      const clampBottom = Math.max(top, Math.min(bottom, yBottomTarget));
+      if (clampBottom > clampTop) {
+        ctx.fillStyle = 'rgba(34, 197, 94, 0.18)';
+        ctx.fillRect(left, clampTop, right - left, clampBottom - clampTop);
+      }
+
+      horizontalLevels
+        .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+        .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+        .forEach(lvl => {
+          ctx.beginPath();
+          ctx.strokeStyle = lvl.color;
+          ctx.lineWidth = lvl.width;
+          ctx.setLineDash(lvl.dash);
+          ctx.moveTo(left, lvl.yPos);
+          ctx.lineTo(right, lvl.yPos);
+          ctx.stroke();
+        });
+
+      const slotWidth = x.getPixelForValue(1) - x.getPixelForValue(0);
+      const candleWidth = Math.max(6, Math.min(22, slotWidth * 0.58));
+      ohlcData.forEach(d => {
+        const xCenter = x.getPixelForValue(d.xIndex);
+        const yHigh = y.getPixelForValue(d.h), yLow = y.getPixelForValue(d.l);
+        const yOpen = y.getPixelForValue(d.o), yClose = y.getPixelForValue(d.c);
+        const isBull = d.c >= d.o;
+        const fillColor = isBull ? '#16a34a' : '#dc2626';
+        const borderColor = isBull ? '#15803d' : '#b91c1c';
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 1.5;
+        ctx.moveTo(xCenter, yHigh);
+        ctx.lineTo(xCenter, yLow);
+        ctx.stroke();
+        const bodyTop = Math.min(yOpen, yClose);
+        const bodyHeight = Math.max(2, Math.max(yOpen, yClose) - bodyTop);
+        ctx.fillStyle = fillColor;
+        ctx.fillRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 1.2;
+        ctx.strokeRect(xCenter - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+      });
+      ctx.restore();
+    },
+    afterDatasetsDraw(chart) {
+      const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+      const isMobile = window.innerWidth < 640;
+      ctx.save();
+
+      const xDivider = (x.getPixelForValue(9) + x.getPixelForValue(10)) / 2;
+      ctx.font = '600 10px Inter, sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.textAlign = 'left';
+      ctx.fillText('ACTUAL SESSIONS (NOV 2 – NOV 13)', left + 8, top + 14);
+      ctx.fillText('FORECAST WINDOW / RESERVED SPACE', xDivider + 10, top + 14);
+
+      ctx.font = isMobile ? '600 10px Inter, sans-serif' : '600 11px Inter, sans-serif';
+      ctx.textBaseline = 'middle';
+      const visibleLevels = horizontalLevels
+        .map(lvl => ({ ...lvl, yPos: y.getPixelForValue(lvl.price) }))
+        .filter(lvl => lvl.yPos >= top - 4 && lvl.yPos <= bottom + 4)
+        .sort((a, b) => a.yPos - b.yPos);
+
+      const minLabelGap = 14;
+      for (let i = 0; i < visibleLevels.length; i++) {
+        visibleLevels[i].labelY = i === 0
+          ? Math.max(top + 8, visibleLevels[i].yPos)
+          : Math.max(visibleLevels[i].yPos, visibleLevels[i - 1].labelY + minLabelGap);
+      }
+
+      visibleLevels.forEach(lvl => {
+        if (!isMobile) {
+          if (Math.abs(lvl.labelY - lvl.yPos) > 2) {
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = lvl.color;
+            ctx.moveTo(right, lvl.yPos);
+            ctx.lineTo(right + 6, lvl.labelY);
+            ctx.stroke();
+          }
+          ctx.textAlign = 'left';
+          ctx.fillStyle = lvl.color;
+          ctx.fillText(lvl.label, right + 9, lvl.labelY);
+        } else {
+          ctx.textAlign = 'right';
+          const textWidth = ctx.measureText(lvl.label).width;
+          const pillPaddingX = 5, pillHeight = 13;
+          drawRoundedRect(ctx, right - 6 - textWidth - pillPaddingX, lvl.labelY - pillHeight / 2, textWidth + pillPaddingX * 2, pillHeight, 3);
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
+          ctx.fill();
+          ctx.fillStyle = lvl.color;
+          ctx.fillText(lvl.label, right - 6, lvl.labelY);
+        }
+      });
+      ctx.restore();
+    }
+  };
+
+  const gcChart = new Chart(document.getElementById('gcChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'GCZ26 Close',
+        data: closePlaceholders,
+        borderColor: 'transparent',
+        backgroundColor: 'transparent',
+        pointRadius: 0,
+        pointHoverRadius: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      events: [],
+      layout: { padding: { right: window.innerWidth < 640 ? 12 : 240, top: 16, bottom: 10, left: 4 } },
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        y: {
+          min: 3650, max: 4250,
+          ticks: { stepSize: 50, callback: (val) => '$' + val.toLocaleString('en-US') },
+          title: { display: true, text: 'Price (USD / troy ounce)', font: { weight: '600' } },
+          grid: { color: '#f1f5f9' }
+        },
+        x: {
+          offset: true,
+          ticks: { maxRotation: 45, minRotation: 0, callback: function(value, index) { return index < 10 ? labels[index] : ''; } },
+          title: { display: true, text: 'Trading Session (Left Half: Historical OHLC | Right Half: Reserved Forecast Space)', font: { weight: '600' } },
+          grid: { color: '#f1f5f9' }
+        }
+      }
+    },
+    plugins: [staticCandlesAndLevelsPlugin]
+  });
+
+  const btnZoomActive = document.getElementById('btnZoomActive');
+  const btnZoomFull = document.getElementById('btnZoomFull');
+  function setZoom(min, max, step, on, off) {
+    gcChart.options.scales.y.min = min;
+    gcChart.options.scales.y.max = max;
+    gcChart.options.scales.y.ticks.stepSize = step;
+    on.classList.add('zoom-btn-active'); on.classList.remove('zoom-btn-inactive');
+    off.classList.remove('zoom-btn-active'); off.classList.add('zoom-btn-inactive');
+    gcChart.update();
+  }
+  btnZoomActive.addEventListener('click', () => setZoom(3650, 4250, 50, btnZoomActive, btnZoomFull));
+  btnZoomFull.addEventListener('click', () => setZoom(3450, 4850, 100, btnZoomFull, btnZoomActive));
+})();
+</script>
