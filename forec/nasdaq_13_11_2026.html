@@ -128,6 +128,7 @@
 
       <!-- Legend Box Above the Chart -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 text-slate-700">
+        <div class="flex items-center gap-2" data-post-legend><span class="inline-flex items-center gap-0.5 shrink-0"><span style="width:10px;height:14px;display:inline-block;background:#2563eb;border:1px solid #1d4ed8"></span><span style="width:10px;height:14px;display:inline-block;background:#f97316;border:1px solid #ea580c"></span></span><span><strong class="font-semibold">After forecast: actual daily candles (blue up / orange down)</strong></span></div>
         <div class="flex items-center gap-2">
           <span class="inline-flex items-center gap-0.5 shrink-0">
             <span class="w-2.5 h-3.5 bg-[#16a34a] border border-[#15803d] inline-block"></span>
@@ -331,7 +332,8 @@
         { xIndex: 6, date: '2026-11-09', o: 27263.43, h: 28025.77, l: 27227.53, c: 27907.63 },
         { xIndex: 7, date: '2026-11-10', o: 27649.63, h: 27990.34, l: 27421.18, c: 27740.79 },
         { xIndex: 8, date: '2026-11-11', o: 28267.33, h: 28593.52, l: 28102.75, c: 28374.25 },
-        { xIndex: 9, date: '2026-11-12', o: 27953.91, h: 28548.55, l: 27940.58, c: 28289.19 }
+        { xIndex: 9, date: '2026-11-12', o: 27953.91, h: 28548.55, l: 27940.58, c: 28289.19 },
+        { xIndex: 10, date: '2026-11-13', o: 28399.25, h: 28607.75, l: 27695.25, c: 28034.75, post: true }
       ];
 
       // Dummy dataset array with nulls on the right half so Chart.js scales the X-axis properly
@@ -432,8 +434,8 @@
             const yClose = y.getPixelForValue(d.c);
 
             const isBull = d.c >= d.o;
-            const fillColor = isBull ? '#16a34a' : '#dc2626';
-            const borderColor = isBull ? '#15803d' : '#b91c1c';
+            const fillColor = d.post ? (isBull ? '#2563eb' : '#f97316') : (isBull ? '#16a34a' : '#dc2626');
+            const borderColor = d.post ? (isBull ? '#1d4ed8' : '#ea580c') : (isBull ? '#15803d' : '#b91c1c');
 
             // High-Low Wick
             ctx.beginPath();
@@ -580,7 +582,7 @@
                 maxRotation: 45,
                 minRotation: 0,
                 callback: function(value, index) {
-                  return index < 10 ? labels[index] : '';
+                  return index < 10 ? labels[index] : ((ohlcData.some(d => d.post && d.xIndex === index) && (index - 10) % 2 === 0) ? labels[index] : '');
                 }
               },
               title: {
