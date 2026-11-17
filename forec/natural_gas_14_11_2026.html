@@ -149,6 +149,7 @@
       </div>
 
       <!-- Static Candlestick Chart Canvas -->
+      <div class="flex items-center gap-2" data-post-legend><span class="inline-flex items-center gap-0.5 shrink-0"><span style="width:10px;height:14px;display:inline-block;background:#2563eb;border:1px solid #1d4ed8"></span><span style="width:10px;height:14px;display:inline-block;background:#f97316;border:1px solid #ea580c"></span></span><span><strong class="font-semibold">After forecast: actual daily candles (blue up / orange down)</strong></span></div>
       <div class="chart-wrapper">
         <canvas id="ngzChart"></canvas>
       </div>
@@ -324,16 +325,17 @@
 
       // Verified NGZ26 Daily OHLC Series (Nov 2 – Nov 13, 2026)
       const ohlcData = [
-        { xIndex: 0, date: '2026-11-02', o: 2.898, h: 2.915, l: 2.835, c: 2.856 },
-        { xIndex: 1, date: '2026-11-03', o: 2.856, h: 2.912, l: 2.842, c: 2.895 },
-        { xIndex: 2, date: '2026-11-04', o: 2.895, h: 2.980, l: 2.880, c: 2.959 },
-        { xIndex: 3, date: '2026-11-05', o: 2.959, h: 2.978, l: 2.920, c: 2.947 },
-        { xIndex: 4, date: '2026-11-06', o: 2.947, h: 3.040, l: 2.940, c: 2.998 },
-        { xIndex: 5, date: '2026-11-09', o: 2.998, h: 3.239, l: 2.995, c: 3.218 },
-        { xIndex: 6, date: '2026-11-10', o: 3.218, h: 3.315, l: 3.205, c: 3.296 },
-        { xIndex: 7, date: '2026-11-11', o: 3.296, h: 3.305, l: 3.195, c: 3.215 },
-        { xIndex: 8, date: '2026-11-12', o: 3.239, h: 3.348, l: 3.226, c: 3.340 },
-        { xIndex: 9, date: '2026-11-13', o: 3.340, h: 3.345, l: 3.218, c: 3.230 }
+        { xIndex: 0, date: '2026-11-02', o: 2.90, h: 2.92, l: 2.83, c: 2.86 },
+        { xIndex: 1, date: '2026-11-03', o: 2.86, h: 2.91, l: 2.84, c: 2.90 },
+        { xIndex: 2, date: '2026-11-04', o: 2.90, h: 2.98, l: 2.88, c: 2.96 },
+        { xIndex: 3, date: '2026-11-05', o: 2.96, h: 2.98, l: 2.92, c: 2.95 },
+        { xIndex: 4, date: '2026-11-06', o: 2.95, h: 3.04, l: 2.94, c: 3.00 },
+        { xIndex: 5, date: '2026-11-09', o: 3.00, h: 3.24, l: 3.00, c: 3.22 },
+        { xIndex: 6, date: '2026-11-10', o: 3.22, h: 3.31, l: 3.21, c: 3.30 },
+        { xIndex: 7, date: '2026-11-11', o: 3.30, h: 3.31, l: 3.19, c: 3.21 },
+        { xIndex: 8, date: '2026-11-12', o: 3.24, h: 3.35, l: 3.23, c: 3.34 },
+        { xIndex: 9, date: '2026-11-13', o: 3.34, h: 3.35, l: 3.22, c: 3.23 },
+        { xIndex: 10, date: '2026-11-16', o: 3.18, h: 3.19, l: 3.09, c: 3.12, post: true }
       ];
 
       // Electronic Reference Price Marker ($3.245/MMBtu)
@@ -435,8 +437,8 @@
             const yClose = y.getPixelForValue(d.c);
 
             const isBull = d.c >= d.o;
-            const fillColor = isBull ? '#16a34a' : '#dc2626';
-            const borderColor = isBull ? '#15803d' : '#b91c1c';
+            const fillColor = d.post ? (isBull ? '#2563eb' : '#f97316') : (isBull ? '#16a34a' : '#dc2626');
+            const borderColor = d.post ? (isBull ? '#1d4ed8' : '#ea580c') : (isBull ? '#15803d' : '#b91c1c');
 
             // High-Low Wick
             ctx.beginPath();
@@ -600,7 +602,7 @@
           scales: {
             y: {
               min: 2.65,
-              max: 3.70,
+              max: 3.7,
               ticks: {
                 stepSize: 0.10,
                 callback: (val) => '$' + val.toFixed(2)
@@ -618,7 +620,7 @@
                 maxRotation: 45,
                 minRotation: 0,
                 callback: function(value, index) {
-                  return index < 10 ? labels[index] : '';
+                  return index < 10 ? labels[index] : ((ohlcData.some(d => d.post && d.xIndex === index) && (index - 10) % 2 === 0) ? labels[index] : '');
                 }
               },
               title: {
@@ -638,7 +640,7 @@
 
       btnZoomActive.addEventListener('click', function() {
         ngzChart.options.scales.y.min = 2.65;
-        ngzChart.options.scales.y.max = 3.70;
+        ngzChart.options.scales.y.max = 3.7;
         ngzChart.options.scales.y.ticks.stepSize = 0.10;
         btnZoomActive.classList.add('zoom-btn-active');
         btnZoomActive.classList.remove('zoom-btn-inactive');
@@ -648,7 +650,7 @@
       });
 
       btnZoomFull.addEventListener('click', function() {
-        ngzChart.options.scales.y.min = 2.50;
+        ngzChart.options.scales.y.min = 2.5;
         ngzChart.options.scales.y.max = 4.15;
         ngzChart.options.scales.y.ticks.stepSize = 0.15;
         btnZoomFull.classList.add('zoom-btn-active');
