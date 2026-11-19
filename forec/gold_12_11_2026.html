@@ -102,7 +102,7 @@
         <!-- Quick-Zoom Toggle Buttons -->
         <div class="flex flex-wrap items-center gap-2 shrink-0">
           <button id="btnZoomActive" type="button" class="zoom-btn-active px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
-            Active Trading Zone ($3,760 – $4,320)
+            Active Trading Zone ($3,680 – $4,320)
           </button>
           <button id="btnZoomFull" type="button" class="zoom-btn-inactive px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
             Full Levels Range ($3,450 – $4,850)
@@ -319,7 +319,9 @@
         { xIndex: 8, date: '2026-11-11', o: 4030.20, h: 4072.00, l: 3994.00, c: 4000.50 },
         { xIndex: 9, date: '2026-11-12', o: 3994.00, h: 4005.90, l: 3856.70, c: 3885.30 },
         { xIndex: 10, date: '2026-11-13', o: 3883.30, h: 3927.20, l: 3871.10, c: 3886.30, post: true },
-        { xIndex: 11, date: '2026-11-16', o: 3869.70, h: 3904.30, l: 3835.20, c: 3853.00, post: true }
+        { xIndex: 11, date: '2026-11-16', o: 3869.70, h: 3904.30, l: 3835.20, c: 3853.00, post: true },
+        { xIndex: 12, date: '2026-11-17', o: 3859.50, h: 3894.00, l: 3839.20, c: 3864.20, post: true },
+        { xIndex: 13, date: '2026-11-18', o: 3855.20, h: 3859.30, l: 3721.80, c: 3741.90, post: true }
       ];
 
       // Dummy dataset array with nulls on the right half so Chart.js scales the X-axis properly
@@ -551,7 +553,7 @@
           },
           scales: {
             y: {
-              min: 3760,
+              min: 3680,
               max: 4320,
               ticks: {
                 stepSize: 40,
@@ -589,7 +591,7 @@
       const btnZoomFull = document.getElementById('btnZoomFull');
 
       btnZoomActive.addEventListener('click', function() {
-        gczChart.options.scales.y.min = 3760;
+        gczChart.options.scales.y.min = 3680;
         gczChart.options.scales.y.max = 4320;
         gczChart.options.scales.y.ticks.stepSize = 40;
         btnZoomActive.classList.add('zoom-btn-active');

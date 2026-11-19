@@ -102,10 +102,10 @@
         <!-- Quick-Zoom Toggle Buttons -->
         <div class="flex flex-wrap items-center gap-2 shrink-0">
           <button id="btnZoomActive" type="button" class="zoom-btn-active px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
-            Active Trading Zone ($1,430 – $1,720)
+            Active Trading Zone ($1,325 – $1,720)
           </button>
           <button id="btnZoomFull" type="button" class="zoom-btn-inactive px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer">
-            Full Levels Range ($1,430 – $1,970)
+            Full Levels Range ($1,300 – $1,970)
           </button>
         </div>
       </div>
@@ -316,7 +316,9 @@
         { xIndex: 9, date: '2026-11-11', o: 1541.30, h: 1577.80, l: 1534.20, c: 1538.50 },
         { xIndex: 10, date: '2026-11-12', o: 1535.50, h: 1552.00, l: 1513.90, c: 1520.40, post: true },
         { xIndex: 11, date: '2026-11-13', o: 1519.90, h: 1541.20, l: 1485.70, c: 1489.70, post: true },
-        { xIndex: 12, date: '2026-11-16', o: 1487.10, h: 1511.90, l: 1440.70, c: 1448.50, post: true }
+        { xIndex: 12, date: '2026-11-16', o: 1487.10, h: 1511.90, l: 1440.70, c: 1448.50, post: true },
+        { xIndex: 13, date: '2026-11-17', o: 1451.10, h: 1478.70, l: 1416.50, c: 1426.50, post: true },
+        { xIndex: 14, date: '2026-11-18', o: 1423.70, h: 1431.70, l: 1354.90, c: 1361.00, post: true }
       ];
 
       const closePlaceholders = labels.map((_, idx) => {
@@ -534,7 +536,7 @@
           },
           scales: {
             y: {
-              min: 1430,
+              min: 1325,
               max: 1720,
               ticks: {
                 stepSize: 25,
@@ -572,7 +574,7 @@
       const btnZoomFull = document.getElementById('btnZoomFull');
 
       btnZoomActive.addEventListener('click', function() {
-        plfChart.options.scales.y.min = 1430;
+        plfChart.options.scales.y.min = 1325;
         plfChart.options.scales.y.max = 1720;
         plfChart.options.scales.y.ticks.stepSize = 25;
         btnZoomActive.classList.add('zoom-btn-active');
@@ -583,7 +585,7 @@
       });
 
       btnZoomFull.addEventListener('click', function() {
-        plfChart.options.scales.y.min = 1430;
+        plfChart.options.scales.y.min = 1300;
         plfChart.options.scales.y.max = 1970;
         plfChart.options.scales.y.ticks.stepSize = 50;
         btnZoomFull.classList.add('zoom-btn-active');
